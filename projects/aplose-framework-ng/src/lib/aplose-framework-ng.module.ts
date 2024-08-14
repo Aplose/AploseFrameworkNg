@@ -1,16 +1,11 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { Config } from './model/Config';
 import { APLOSE_FRAMEWORK_NG_CONFIG } from './config/config.service';
 
 
 
-@NgModule({
-  declarations: [],
-  imports: [
-    HttpClientModule
-  ]
-})
+@NgModule({ declarations: [], imports: [], providers: [provideHttpClient(withInterceptorsFromDi())] })
 
 export class AploseFrameworkNgModule {
   static forRoot(config: Config): ModuleWithProviders<AploseFrameworkNgModule> {
