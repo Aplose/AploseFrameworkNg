@@ -4,6 +4,7 @@ import { ConfigService } from '../../config/config.service';
 import { RegisterDto } from '../../dto/RegisterDto';
 import { Observable } from 'rxjs';
 import { UserAccount } from '../../model/UserAccount';
+import { Browser } from '@capacitor/browser';
 
 @Injectable({
   providedIn: 'root'
