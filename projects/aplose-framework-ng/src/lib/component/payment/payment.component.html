@@ -1,0 +1,26 @@
+
+
+<div class="stripe" ngxStripeCardGroup [elementsOptions]="elementsOptions" >
+
+    <div>
+    
+    
+        <h1>Service: {{service?.name}}</h1>
+
+        <h2>Durée: {{service?.minuteDuration}} min</h2>
+        <h2>Prix: {{service?.price}}</h2>
+
+    </div>
+
+    <ngx-stripe-elements>
+
+    <!-- <ion-card class="ion-padding"> -->
+        <ngx-stripe-card [options]="cardOptions"></ngx-stripe-card>
+    <!-- </ion-card> -->
+    
+    <div class="stripe-checkout-button-container">
+        <button class="stripe-checkout-button" type="submit" (click)="createPaymentMethod()">Payer ce service</button>
+    </div>
+    
+    </ngx-stripe-elements>
+</div>

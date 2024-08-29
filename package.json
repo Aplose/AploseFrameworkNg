@@ -20,6 +20,8 @@
     "@angular/platform-browser-dynamic": "^18.1.4",
     "@angular/router": "^18.1.4",
     "@capacitor/browser": "^6.0.2",
+    "ngx-indexed-db": "^19.0.0",
+    "ngx-stripe": "^18.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"

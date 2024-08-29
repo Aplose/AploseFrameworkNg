@@ -1,34 +1,42 @@
 import { Injectable } from '@angular/core';
 import { Token } from '../../model/Token';
+import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TokenStorageService {
 
-  public getToken(): Token | null{
-    const token = localStorage.getItem('auth-token');
-    if(token == null){
-        return null;
-    }
-    return {
-        accessToken: token,
-        type: JSON.parse(localStorage.getItem('auth-token-type') ?? ''),
-        expireAt: new Date(JSON.parse(localStorage.getItem('auth-token-expireAt') ?? ''))
-    }
-}
+    private readonly storename: string = 'authentication';
+    private readonly keyname: string = 'token';
 
-public setToken(token: Token): void{
-    console.log('setToken:', token);
-    
-    localStorage.setItem('auth-token', token.accessToken);
-    localStorage.setItem('auth-token-type', JSON.stringify(token.type));
-    localStorage.setItem('auth-token-expireAt', JSON.stringify(token.expireAt));
-}
 
-public deleteToken(){
-    localStorage.removeItem('auth-token');
-    localStorage.removeItem('auth-token-type');
-    localStorage.removeItem('auth-token-expireAt');
-}
+    constructor(
+        private _indexedDBService: NgxIndexedDBService,
+    ){}
+
+
+    public getToken(): Observable<Token | null>{
+
+        return this._indexedDBService.getByKey<{key: string, value: Token} | undefined>(this.storename, this.keyname).pipe(
+            map((token: {key: string, value: Token} | undefined) => {
+                if(token){
+                    return token.value;
+                }
+                return null;
+            })
+        )
+    }
+
+    public setToken(token: Token): void{
+        this._indexedDBService.add(this.storename, {key: this.keyname, value: token}).subscribe();
+    }
+
+
+
+    public deleteToken(){
+        this._indexedDBService.deleteByKey(this.storename, this.keyname).subscribe(()=>{console.log('token supprimé')})
+
+    }
 }

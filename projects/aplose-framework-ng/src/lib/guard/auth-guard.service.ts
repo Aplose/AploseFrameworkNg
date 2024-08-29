@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, GuardResult, MaybeAsync, Router, RouterStateSnapshot } from '@angular/router';
 import { AuthenticationService } from '../../public-api';
+import { map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +15,15 @@ export class AuthGuardService {
 
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): MaybeAsync<GuardResult>{
-    console.log('IS LOGED:', this._authService.isLoged());
-    
-    if(this._authService.isLoged()){
-      return true;
-    }
-    this._router.navigate(['/login'], {queryParams: {returnUrl: state.url}});
-    return false;
+
+    return this._authService.isLoged().pipe(
+      tap((isLoged) => {
+        console.log('IS LOGED:', isLoged);
+        if (!isLoged) {
+          this._router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+        }
+      }),
+      map(isLoged => isLoged)
+    );
   }
 }

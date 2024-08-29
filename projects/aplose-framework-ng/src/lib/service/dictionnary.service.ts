@@ -25,6 +25,6 @@ export class DictionnaryService {
 
 
   public loadAppointmentTypes$(): Observable<AppointmentType[]>{
-    return this._httpClient.get<AppointmentType[]>(`${this._configService.backendUrl}/dictionnary/appointment/types`);
+    return this._httpClient.get<AppointmentType[]>(`${this._configService.backendUrl}/appointment/types`);
   }
 }

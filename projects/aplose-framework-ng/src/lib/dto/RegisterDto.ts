@@ -1,14 +1,14 @@
 
 
 export interface RegisterDto{
-    personUserAccountUsername: string
-    personUserAccountPassword: string
+    userAccountUsername: string
+    userAccountPassword: string
     passwordRepeat: string
     isProfessional: boolean
-    personFirstName: string
-    personLastName: string
-    personPhone: string
-    personCivilityRowid: number
-    personAddressCountryId: number
-    companyName: string
+    firstName: string
+    lastName: string
+    phone: string
+    civilityRowid: number
+    addressCountryCode: string
+    userAccountCompanyName: string
 }

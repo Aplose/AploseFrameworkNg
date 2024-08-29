@@ -3,6 +3,6 @@ import { TokenCategoryEnum } from "../enum/TokenCategoryEnum";
 
 export interface Token{
     accessToken: string;
-    expireAt: Date;
+    expireAt: number;
     type: TokenCategoryEnum;
 }
