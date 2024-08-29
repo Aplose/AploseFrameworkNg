@@ -4,6 +4,7 @@ import { Observable, tap } from 'rxjs';
 import { Service } from '../model/Service';
 import { ConfigService } from '../config/config.service';
 import { Page } from '../model/Page';
+import { ServiceDto } from '../dto/ServiceDto';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,9 @@ export class ServiceService {
 
 
 
-
+  public createService$(service: ServiceDto){
+    return this._httpClient.post<Service>(`${this._configService.backendUrl}/service`, service);
+  }
 
 
 
