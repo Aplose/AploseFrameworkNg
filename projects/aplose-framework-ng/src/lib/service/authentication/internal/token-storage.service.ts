@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Token } from '../../model/Token';
+import { Token } from '../../../model/Token';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { map, Observable } from 'rxjs';
 
@@ -21,10 +21,10 @@ export class TokenStorageService {
 
         return this._indexedDBService.getByKey<{key: string, value: Token} | undefined>(this.storename, this.keyname).pipe(
             map((token: {key: string, value: Token} | undefined) => {
-                if(token){
-                    return token.value;
+                if(token == undefined){
+                    return null;
                 }
-                return null;
+                return token.value;
             })
         )
     }
@@ -36,7 +36,7 @@ export class TokenStorageService {
 
 
     public deleteToken(){
-        this._indexedDBService.deleteByKey(this.storename, this.keyname).subscribe(()=>{console.log('token supprimé')})
+        this._indexedDBService.deleteByKey(this.storename, this.keyname).subscribe(()=>{console.log('token, role, logedUser deleted !')})
 
     }
 }

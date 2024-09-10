@@ -1,3 +1,4 @@
+import { AuthenticationTypeEnum } from "../enum/AuthenticationTypeEnum"
 
 
 export interface RegisterDto{
@@ -11,4 +12,5 @@ export interface RegisterDto{
     civilityRowid: number
     addressCountryCode: string
     userAccountCompanyName: string
+    authenticationType: AuthenticationTypeEnum
 }

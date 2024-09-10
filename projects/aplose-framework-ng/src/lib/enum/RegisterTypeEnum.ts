@@ -1,6 +1,6 @@
 
 
-export enum TokenCategoryEnum{
+export enum RegisterTypeEnum{
     INTERNAL,
     DOLIBARR,
     GOOGLE,

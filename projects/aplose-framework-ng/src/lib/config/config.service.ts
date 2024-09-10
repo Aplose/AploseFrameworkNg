@@ -12,4 +12,8 @@ export class ConfigService {
   public get backendUrl(): string {
     return this.config.backendUrl;
   }
+
+  public get googlePublicClientId(): string{
+    return this.config.googlePublicClientId;
+  }
 }

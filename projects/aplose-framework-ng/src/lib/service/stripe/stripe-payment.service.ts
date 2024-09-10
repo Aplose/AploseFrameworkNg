@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PaymentIntent, PaymentMethod } from '@stripe/stripe-js';
-import { CreateCheckoutDto } from '../../dto/CreateCheckoutDto';
+import { PaymentIntent } from '@stripe/stripe-js';
+import { CreateCheckoutDto } from '../../dto/stripe/CreateCheckoutDto';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from '../../config/config.service';
 
@@ -14,8 +14,9 @@ export class StripePaymentService {
 
 
   public sendPaymentMethod$(createCheckoutDto: CreateCheckoutDto ): Observable<PaymentIntent>{
-    return this._httpClient.post<PaymentIntent>(
-      `${this._configService.backendUrl}/stripe/checkout`, 
-      {serviceId: createCheckoutDto.serviceId, paymentMethodId: createCheckoutDto.paymentMethodId})
+    return this._httpClient.post<PaymentIntent>( `${this._configService.backendUrl}/stripe/checkout`, {
+      serviceId: createCheckoutDto.serviceId, 
+      paymentMethodId: createCheckoutDto.paymentMethodId
+    })
   }
 }

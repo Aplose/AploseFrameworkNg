@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { AuthRequestDTO } from '../../dto/AuthRequestDTO';
-import { AuthResponseDTO } from '../../dto/AuthResponseDTO';
+import { AuthRequestDTO } from '../../../dto/AuthRequestDTO';
+import { AuthResponseDTO } from '../../../dto/AuthResponseDTO';
 import { HttpClient } from '@angular/common/http';
-import { ConfigService } from '../../config/config.service';
+import { ConfigService } from '../../../config/config.service';
 import { map, Observable, tap } from 'rxjs';
 import { RoleService } from './role.service';
 import { TokenStorageService } from './token-storage.service';
-import { Token } from '../../model/Token';
-import { UserAccountService } from '../user-account.service';
-import { UserAccount } from '../../model/UserAccount';
+import { Token } from '../../../model/Token';
+import { UserAccount } from '../../../model/UserAccount';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 
 @Injectable({
@@ -28,12 +27,11 @@ export class AuthenticationService {
     private _indexedDBService: NgxIndexedDBService
   ){}
 
-  
   public login$(authRequestDto: AuthRequestDTO): Observable<AuthResponseDTO> {
       return  this._httpClient.post<AuthResponseDTO>(this._configService.backendUrl + "/authentication/internal-login", authRequestDto).pipe(
         tap((data: AuthResponseDTO) => {
           this._tokenStorageService.setToken(data.token);
-          // this._roleService.setRoles(data.userAccount);
+          this._roleService.setRoles(data.userAccount);
           this.saveLogedUserAccount(data.userAccount)
         })
       );
@@ -45,18 +43,13 @@ export class AuthenticationService {
     this.deleteLogedUserAccount();
     this._roleService.deleteRoles();
   }
-  
-
-  
-  public isLoged(): Observable<boolean>{
-   
+    
+  public isLoged$(): Observable<boolean>{
     return this._tokenStorageService.getToken().pipe(
-      map((token: Token | null) => token && token.expireAt > Date.now() ? true : false)
+      map((token: Token | null) => token ? true : false)
+      // map((token: Token | null) => token && token.expireAt > Date.now() ? true : false)
     ) 
-    // const token: Token | null = this._tokenStorageService.getToken();
-    // return ! (token == null || token.expireAt < new Date(Date.now()));
   };
-
 
   public saveLogedUserAccount(userAccount: UserAccount): void{
     this._indexedDBService.add(this.storeName, { key: this.keyName, value: userAccount}).subscribe();

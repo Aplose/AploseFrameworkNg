@@ -3,6 +3,9 @@
  */
 
 
+
+
+
 // MODULE
 export { AploseFrameworkNgModule } from './lib/aplose-framework-ng.module';
 
@@ -11,20 +14,19 @@ export { AploseFrameworkNgModule } from './lib/aplose-framework-ng.module';
 //SERVICE
 export { AuthGuardService } from './lib/guard/auth-guard.service';
 export { RoleGuardService } from './lib/guard/role-guard.service';
-export { AuthenticationService } from './lib/service/authentication/authentication.service';
-export { RoleService } from './lib/service/authentication/role.service';
+export { AuthenticationService } from './lib/service/authentication/internal/authentication.service';
+export { RoleService } from './lib/service/authentication/internal/role.service';
 export { DictionnaryService } from './lib/service/dictionnary.service';
-export { RegisterService } from './lib/service/authentication/register.service';
+export { RegisterService } from './lib/service/authentication/internal/register.service';
 export { HttpInterceptorService } from './lib/service/http/http-interceptor.service';
 export { StripeAccountService } from './lib/service/stripe/stripe-account.service';
 export { UserAccountService } from './lib/service/user-account.service';
 export { ServiceService } from './lib/service/service.service';
-
+export { GoogleAuthService } from './lib/service/authentication/google/google-auth.service';
 
 
 // COMPONENT
 export { PaymentComponent } from './lib/component/payment/payment.component';
-
 
 
 // MODEL
@@ -52,12 +54,14 @@ export { AuthRequestDTO } from './lib/dto/AuthRequestDTO';
 export { AuthResponseDTO } from './lib/dto/AuthResponseDTO';
 export { RegisterDto } from './lib/dto/RegisterDto';
 export { ServiceDto } from './lib/dto/ServiceDto';
+export { GoogleAuthResultDto} from './lib/dto/google/GoogleAuthResultDto';
 
 
 
 // ENUM
 export { RoleEnum } from './lib/enum/RoleEnum';
-export { TokenCategoryEnum } from './lib/enum/TokenCategoryEnum';
+export { AuthenticationTypeEnum } from './lib/enum/AuthenticationTypeEnum';
+export { RegisterTypeEnum } from './lib/enum/RegisterTypeEnum';
 
 
 

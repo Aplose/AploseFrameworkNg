@@ -2,7 +2,7 @@ import { DBConfig } from "ngx-indexed-db";
 
 
 export const aploseDBConfig: DBConfig = {
-    name: 'aploseFrameworkIDB',
+    name: 'aploseFrameworkNg',
     version: 1,
     objectStoresMeta: [{
         store: 'authentication',

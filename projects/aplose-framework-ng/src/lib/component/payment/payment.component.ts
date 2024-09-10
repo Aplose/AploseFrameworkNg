@@ -68,14 +68,14 @@ export class PaymentComponent {
     }).subscribe((result: PaymentMethodResult) => {
       if (result.error) {
         this.result = of(result);
-        console.error('ERROR - createPaymentMethod()', result.error.message);
+        console.error('ERROR - createPaymentMethod():', result.error.message);
       } else {
         this._stripePaymentService.sendPaymentMethod$({serviceId: this.service!.id, paymentMethodId: result.paymentMethod.id}).subscribe((paymentIntent: PaymentIntent) => {
           this.paymentIntent = paymentIntent
-          console.log('PAYMENTINTENT:', paymentIntent);
-          console.log('this.PAYMENTINTENT:', this.paymentIntent);
-          
           this.result = this._stripeService.confirmCardPayment(this.paymentIntent.client_secret!);
+          this.result.subscribe(() => {
+            console.log("payment successfull");
+          });
         });
       }
     });

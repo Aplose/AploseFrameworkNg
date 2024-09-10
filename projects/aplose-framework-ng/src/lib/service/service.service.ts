@@ -22,6 +22,11 @@ export class ServiceService {
   }
 
 
+  public loadServiceById$(serviceId: number): Observable<Service>{
+    return this._httpClient.get<Service>(`${this._configService.backendUrl}/service/${serviceId}`);
+  }
+
+
 
   public loadServices$(
     countryCode: string,
@@ -31,27 +36,13 @@ export class ServiceService {
     size: number | undefined | null = undefined
   ): Observable<Page<Service[]>>
   {    
-
-    const url =       `${this._configService.backendUrl}/services?` +
-    `&countryCode=${countryCode ? countryCode : 'FR'}` +
-    `&sort=${encodeURIComponent(sort ? sort : '')}` +
-    `&direction=${direction ? direction : ''}` +
-    `&page=${page ? page : ''}` +
-    `&size=${size ? size : ''}`
-
-    console.log('request: ',url);
-    
     return this._httpClient.get<Page<Service[]>>(
-      url
-    );
-  }
-
-
-
-  public loadServiceById$(serviceId: number): Observable<Service>{
-      return this._httpClient.get<Service>(`${this._configService.backendUrl}/service/${serviceId}`).pipe(
-      tap(s=>{console.log('pipe service:', s);
-      })
+      `${this._configService.backendUrl}/services?` +
+      `&countryCode=${countryCode ? countryCode : 'FR'}` +
+      `&sort=${encodeURIComponent(sort ? sort : '')}` +
+      `&direction=${direction ? direction : ''}` +
+      `&page=${page ? page : ''}` +
+      `&size=${size ? size : ''}`
     );
   }
 
