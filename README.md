@@ -100,8 +100,6 @@ export class AppModule {}
 
 ### <mark>Création de compte avec Google Identity Service</mark>
 
-# 
-
 #### Prerequis:
 
 1) Sur votre page de création de compte, vous devez prévoir un conteneur dans lequel le button ***se connecter avec Google*** sera injecté.
@@ -118,7 +116,7 @@ Pour créer le boutton `se connecter avec Google`, importer `GoogleAuthService` 
 
 <br/>
 
-Souscrivez ( .subscribe() ) à l'`Observble<GoogleAuthResultDto>` retourné par la fonction `.getRegisterClaimsFromGoogle$()`, c'est grâce à cette souscribtion que vous récuperez les informations de l'utilisateur qui s'enregistre avec Google.
+Souscrivez ( .subscribe() ) à l'`Observble<GoogleAuthResultDto>` retourné par la fonction `.getRegisterClaimsFromGoogle$()`, c'est grâce à cette souscription que vous récuperez les informations de l'utilisateur qui s'enregistre avec Google.
 
 <br/>
 
