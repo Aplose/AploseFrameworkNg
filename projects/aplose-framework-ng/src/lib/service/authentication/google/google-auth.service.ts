@@ -107,7 +107,7 @@ export class GoogleAuthService implements OnInit{
 
 
 
-  public getRegisterClaimsFromGoogle$(target: HTMLElement, options: any): Observable<GoogleAuthResultDto>{
+  public getRegisterClaimsFromGoogle$(target: HTMLElement, options: GoogleButtonOptions): Observable<GoogleAuthResultDto>{
     this.loadGsiScript('register').then(() => {
       google.accounts.id.renderButton(target, options);
     })
