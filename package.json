@@ -20,6 +20,7 @@
     "@angular/platform-browser-dynamic": "^18.1.4",
     "@angular/router": "^18.1.4",
     "@capacitor/browser": "^6.0.2",
+    "@stripe/stripe-js": "^4.4.0",
     "ngx-indexed-db": "^19.0.0",
     "ngx-stripe": "^18.1.0",
     "rxjs": "~7.8.0",

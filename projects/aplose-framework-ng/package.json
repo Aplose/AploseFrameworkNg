@@ -1,9 +1,12 @@
 {
   "name": "aplose-framework-ng",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "peerDependencies": {
     "@angular/common": "^18.1.4",
-    "@angular/core": "^18.1.4"
+    "@angular/core": "^18.1.4",
+    "@stripe/stripe-js": "^4.4.0",
+    "ngx-indexed-db": "^19.0.0",
+    "ngx-stripe": "^18.1.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
