@@ -132,16 +132,17 @@ Vous pourrez ensuite envoyé le tout ( les informations reçus grâce à Google 
 
 `RegisterService.register$(dto: RegisterDto)=>Observable<UserAccount>` .
 
-<br/>
+
 Vous devrez alors envoyer le RegisterDto avec la propriété `authenticationType: AuthneticationTypeEnum` égale à `AuthenticationTypeEnum.GOOGLE`
+
+
 
 <u>Exemple:</u>
 
 ```typescript
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationTypeEnum, Civility, Country, DictionnaryService, GoogleAuthResultDto, GoogleAuthService, RegisterService } from 'aplose-framework-ng';
-import { GoogleButtonOptions } from 'aplose-framework-ng/lib/model/google/GoogleButtonOptions';
+import { AuthenticationTypeEnum, GoogleButtonOptions, Civility, Country, DictionnaryService, GoogleAuthResultDto, GoogleAuthService, RegisterService } from 'aplose-framework-ng';
 import { map, Observable } from 'rxjs';
 
 @Component({
