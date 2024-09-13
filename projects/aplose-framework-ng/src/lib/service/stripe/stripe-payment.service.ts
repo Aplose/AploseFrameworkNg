@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { PaymentIntent } from '@stripe/stripe-js';
 import { CreateCheckoutDto } from '../../dto/stripe/CreateCheckoutDto';
 import { HttpClient } from '@angular/common/http';
-import { ConfigService } from '../../config/config.service';
+import { ConfigService } from '../config.service';
 
 @Injectable({
   providedIn: 'root'

@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { AuthRequestDTO } from '../../../dto/AuthRequestDTO';
 import { AuthResponseDTO } from '../../../dto/AuthResponseDTO';
 import { HttpClient } from '@angular/common/http';
-import { ConfigService } from '../../../config/config.service';
 import { map, Observable, tap } from 'rxjs';
 import { RoleService } from './role.service';
 import { TokenStorageService } from './token-storage.service';
 import { Token } from '../../../model/Token';
 import { UserAccount } from '../../../model/UserAccount';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { ConfigService } from '../../config.service';
 
 @Injectable({
   providedIn: 'root'

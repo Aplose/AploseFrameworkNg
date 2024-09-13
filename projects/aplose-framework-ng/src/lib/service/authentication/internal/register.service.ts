@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ConfigService } from '../../../config/config.service';
 import { RegisterDto } from '../../../dto/RegisterDto';
 import { Observable } from 'rxjs';
 import { UserAccount } from '../../../model/UserAccount';
 import { GoogleAuthResultDto } from '../../../dto/google/GoogleAuthResultDto';
+import { ConfigService } from '../../config.service';
 
 @Injectable({
   providedIn: 'root'

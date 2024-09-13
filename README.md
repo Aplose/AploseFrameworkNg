@@ -41,9 +41,9 @@ Angular frontend part of AploseFramework
    Si vous ne possédez pas cette id vous devrez le créer.
    
    voir: https://console.cloud.google.com/apis/credentials
-
+   
    <u>Exemple</u>
-
+   
    Dans `environement.ts`:
 
 ```typescript
@@ -67,9 +67,9 @@ export const environment = {
   ```
   
    contenant vos deux variables d'environnement `environment.backendUrl` et `environment.googlePublicClientId`.
-
+  
   <u>Exemple:</u>
-
+  
   Dans `app.module.ts`:
 
 ```typescript
@@ -89,10 +89,6 @@ export const environment = {
 })
 export class AppModule {}
 ```
-
-
-
-
 
 ## <u>Google Identity Service</u>
 
@@ -132,10 +128,7 @@ Vous pourrez ensuite envoyé le tout ( les informations reçus grâce à Google 
 
 `RegisterService.register$(dto: RegisterDto)=>Observable<UserAccount>` .
 
-
 Vous devrez alors envoyer le RegisterDto avec la propriété `authenticationType: AuthneticationTypeEnum` égale à `AuthenticationTypeEnum.GOOGLE`
-
-
 
 <u>Exemple:</u>
 

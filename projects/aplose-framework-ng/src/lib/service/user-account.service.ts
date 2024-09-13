@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Page } from '../model/Page';
 import { Person } from '../model/Person';
-import { ConfigService } from '../config/config.service';
 import { HttpClient } from '@angular/common/http';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'

@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { Service } from '../model/Service';
-import { ConfigService } from '../config/config.service';
 import { Page } from '../model/Page';
 import { ServiceDto } from '../dto/ServiceDto';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'

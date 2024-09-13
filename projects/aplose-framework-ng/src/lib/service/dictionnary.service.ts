@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Civility } from '../model/Civility';
-import { ConfigService } from '../config/config.service';
 import { Country } from '../model/Country';
 import { AppointmentType } from '../model/AppointmentType';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'

@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ConfigService } from '../../../config/config.service';
 import { AuthenticationService } from '../internal/authentication.service';
 import { RoleService } from '../internal/role.service';
 import { TokenStorageService } from '../internal/token-storage.service';
@@ -10,6 +9,7 @@ import { AuthResponseDTO } from '../../../dto/AuthResponseDTO';
 import { UserAccount } from '../../../model/UserAccount';
 import { GoogleAuthResultDto } from '../../../dto/google/GoogleAuthResultDto';
 import { GoogleButtonOptions } from '../../../model/google/GoogleButtonOptions';
+import { ConfigService } from '../../config.service';
 
 
 declare var google: any;
@@ -21,7 +21,7 @@ declare var google: any;
 
 export class GoogleAuthService implements OnInit{
 
-  private publicClientId!: string;
+  // private publicClientId!: string;
   private gsiInitialized: boolean = false;
   private logingSubject: Subject<UserAccount> = new Subject<UserAccount>();
   private loging$: Observable<UserAccount> = this.logingSubject.asObservable();
@@ -37,10 +37,16 @@ export class GoogleAuthService implements OnInit{
     private _tokenStorageService: TokenStorageService,
   ) {}
 
-
+  public test(){
+    console.log('test', this._configService.backendUrl);
+    console.log('test', this._configService.googlePublicClientId);
+    
+  }
 
   public ngOnInit(){
-    this.publicClientId = this._configService.googlePublicClientId;
+    // this.publicClientId = this._configService.googlePublicClientId;
+    console.log('google id:', this._configService.googlePublicClientId);
+    
   }
 
 
@@ -56,7 +62,7 @@ export class GoogleAuthService implements OnInit{
       script.defer = true;
       script.onload = () => {
         google.accounts.id.initialize({
-          client_id: this.publicClientId,
+          client_id: this._configService.googlePublicClientId,
           callback: (response: any) => {
             switch(mode){
               case 'login':

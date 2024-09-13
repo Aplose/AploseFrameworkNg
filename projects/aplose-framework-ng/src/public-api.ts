@@ -46,6 +46,7 @@ export { Page } from './lib/model/Page';
 export { Service } from './lib/model/Service';
 export { Person } from './lib/model/Person';
 export { Address } from './lib/model/Address';
+export { GoogleButtonOptions } from './lib/model/google/GoogleButtonOptions';
 
 
 
