@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Token } from '../../../model/Token';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { map, Observable } from 'rxjs';
+import { NgxIndexedDBService } from 'ngx-indexed-db';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class TokenStorageService {
 
 
     public getToken(): Observable<Token | null>{
-
+        this._indexedDBService.selectDb('aploseFrameworkNg')
         return this._indexedDBService.getByKey<{key: string, value: Token} | undefined>(this.storename, this.keyname).pipe(
             map((token: {key: string, value: Token} | undefined) => {
                 if(token == undefined){
@@ -30,12 +30,14 @@ export class TokenStorageService {
     }
 
     public setToken(token: Token): void{
+        this._indexedDBService.selectDb('aploseFrameworkNg')
         this._indexedDBService.add(this.storename, {key: this.keyname, value: token}).subscribe();
     }
 
 
 
     public deleteToken(){
+        this._indexedDBService.selectDb('aploseFrameworkNg')
         this._indexedDBService.deleteByKey(this.storename, this.keyname).subscribe(()=>{console.log('token, role, logedUser deleted !')})
 
     }

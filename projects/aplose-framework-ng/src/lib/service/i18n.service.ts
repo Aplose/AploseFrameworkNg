@@ -19,6 +19,10 @@ export class I18nService {
   }
 
   async getT(key:string,defaultValue:string):Promise<string>{
+
+    // on selectionne la IndexedDB 'aploseFrameworkNg'
+    this.idbService.selectDb('aploseFrameworkNg')
+
     //d'abord on regarde en local
     let value:string = await firstValueFrom(this.idbService.getByID<string>('translation',key),{ defaultValue: '' });
     //puis on regarde à distance en envoyant la locale et la valeur par défaut au cas ou

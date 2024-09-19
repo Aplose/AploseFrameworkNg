@@ -47,6 +47,7 @@ export { Service } from './lib/model/Service';
 export { Person } from './lib/model/Person';
 export { Address } from './lib/model/Address';
 export { GoogleButtonOptions } from './lib/model/google/GoogleButtonOptions';
+export { PaymentIntentResult, PaymentMethodResult } from '@stripe/stripe-js';
 
 
 
@@ -66,3 +67,4 @@ export { RegisterTypeEnum } from './lib/enum/RegisterTypeEnum';
 
 
 
+export { aploseDBConfig } from './lib/config/indexedDB/indexedDBConfig';

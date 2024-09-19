@@ -1,8 +1,8 @@
 import { Injectable, OnInit } from '@angular/core';
 import { UserAccount } from '../../../model/UserAccount';
 import { RoleEnum } from '../../../enum/RoleEnum';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { from, map, Observable } from 'rxjs';
+import { NgxIndexedDBService } from 'ngx-indexed-db';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +24,7 @@ export class RoleService implements OnInit{
 
 
     public getRoles$(): Observable<string[]>{
+        this._indexedDBService.selectDb('aploseFrameworkNg')
         return from(this._indexedDBService.getByKey<{key: string, value: string}>(this.storename, this.keyname).pipe(
             map((rolesSTR: {key: string, value: string}) => rolesSTR.value == null ? [] : rolesSTR.value.split(';')))
         )
@@ -31,6 +32,7 @@ export class RoleService implements OnInit{
 
 
     public setRoles(userAccount: UserAccount): void{
+        this._indexedDBService.selectDb('aploseFrameworkNg')
         let rolesSTR: string = '';
         userAccount.authorities.map(role => {
             rolesSTR += role.authority + ';';
@@ -40,6 +42,7 @@ export class RoleService implements OnInit{
 
 
     public deleteRoles(): void{
+        this._indexedDBService.selectDb('aploseFrameworkNg')
         this._indexedDBService.deleteByKey(this.storename, this.keyname).subscribe()
     }
 

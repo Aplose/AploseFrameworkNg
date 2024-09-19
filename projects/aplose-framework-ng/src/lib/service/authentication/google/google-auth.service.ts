@@ -37,17 +37,8 @@ export class GoogleAuthService implements OnInit{
     private _tokenStorageService: TokenStorageService,
   ) {}
 
-  public test(){
-    console.log('test', this._configService.backendUrl);
-    console.log('test', this._configService.googlePublicClientId);
-    
-  }
 
-  public ngOnInit(){
-    // this.publicClientId = this._configService.googlePublicClientId;
-    console.log('google id:', this._configService.googlePublicClientId);
-    
-  }
+  public ngOnInit(){}
 
 
   private loadGsiScript(mode: 'login' | 'register'): Promise<void> {

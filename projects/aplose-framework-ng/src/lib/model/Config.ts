@@ -1,5 +1,5 @@
 
 export interface Config {
     backendUrl: string;
-    googlePublicClientId: string
+    googlePublicClientId: string;
   }

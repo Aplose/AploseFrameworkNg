@@ -10,7 +10,7 @@ import { StripePaymentService } from '../../service/stripe/stripe-payment.servic
   standalone: true,
   imports: [NgxStripeModule],
   templateUrl: './payment.component.html',
-  styleUrl: './payment.component.css'
+  styleUrl: './payment.component.scss'
 })
 export class PaymentComponent {
 

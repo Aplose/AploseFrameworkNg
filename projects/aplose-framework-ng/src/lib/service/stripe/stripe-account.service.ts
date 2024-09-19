@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { ConfigService } from '../config.service';
 
 @Injectable({
@@ -12,6 +12,6 @@ export class StripeAccountService {
 
 
   public sendAccountLink$ = (): Observable<string> => {
-    return this._httpClient.get<string>(`${this._configService.backendUrl}/stripe/account-link`);
+    return this._httpClient.get(`${this._configService.backendUrl}/stripe/account-link`, {responseType: 'text'});
   }
 }
