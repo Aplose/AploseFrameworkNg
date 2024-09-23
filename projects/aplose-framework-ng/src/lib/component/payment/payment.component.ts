@@ -4,13 +4,15 @@ import { NgxStripeModule, StripeCardComponent, StripeService } from 'ngx-stripe'
 import { Service } from '../../model/Service';
 import { Observable, of } from 'rxjs';
 import { StripePaymentService } from '../../service/stripe/stripe-payment.service';
+import { ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'lib-payment',
   standalone: true,
   imports: [NgxStripeModule],
   templateUrl: './payment.component.html',
-  styleUrl: './payment.component.scss'
+  styleUrl: './payment.component.scss',
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class PaymentComponent {
 
