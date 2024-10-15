@@ -12,29 +12,51 @@ Note : ce framework fonctionne avec la partie backend présente ici : https://gi
 
 ## Prérequis
 
-- **Node.js** (version 14.x ou plus récente)
-- **Angular CLI** (version 12.x ou plus récente)
-- **Ionic CLI** (version 6.x ou plus récente)
+"@angular/common": "^18.1.4",
+
+"@angular/core": "^18.1.4",
+
+"@stripe/stripe-js": "^4.4.0",
+
+"ngx-indexed-db": "^19.0.0",
+
+"ngx-stripe": "^18.1.0",
+
+"@capacitor/android": "^6.0.0",
+
+"@capacitor/app": "^6.0.0",
+
+"@capacitor/core": "^6.1.0",
+
+"@capacitor/haptics": "^6.0.0",
+
+"@capacitor/keyboard": "^6.0.0",
+
+"@capacitor/status-bar": "^6.0.0",
+
+"@ionic/angular": "^8.3.0",
+
+"@angular/localize": "^18.1.4"
 
 ## Installation
 
 1. Clonez le dépôt :
-
-    ```bash
-    git clone https://github.com/votre-utilisateur/AploseFrameworkNg.git
-    ```
+   
+   ```bash
+   git clone https://github.com/votre-utilisateur/AploseFrameworkNg.git
+   ```
 
 2. Accédez au dossier du projet :
-
-    ```bash
-    cd AploseFrameworkNg
-    ```
+   
+   ```bash
+   cd AploseFrameworkNg
+   ```
 
 3. Installez les dépendances nécessaires :
-
-    ```bash
-    npm install
-    ```
+   
+   ```bash
+   npm install
+   ```
 
 4. Configurez les paramètres d'environnement (API URL, clés d'authentification, etc.) dans le fichier `src/environments/environment.ts` pour pointer vers votre backend et services tiers (ex. Stripe, Google Auth).
 

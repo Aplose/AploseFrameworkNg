@@ -30,6 +30,26 @@ Angular frontend part of AploseFramework
 
 - installer le package via `npm install aplose-framework-ng`
 
+
+
+### **<mark>Dépendances</mark>**
+
+    "@angular/common": "^18.1.4",
+    "@angular/core": "^18.1.4",
+    "@stripe/stripe-js": "^4.4.0",
+    "ngx-indexed-db": "^19.0.0",
+    "ngx-stripe": "^18.1.0",
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/app": "^6.0.0",
+    "@capacitor/core": "^6.1.0",
+    "@capacitor/haptics": "^6.0.0",
+    "@capacitor/keyboard": "^6.0.0",
+    "@capacitor/status-bar": "^6.0.0",
+    "@ionic/angular": "^8.3.0",
+    "@angular/localize": "^18.1.4"
+
+
+
 ### <mark> Configurer le package</mark>
 
 #### 1 Créer les variables d'environnement
@@ -47,10 +67,6 @@ Angular frontend part of AploseFramework
    voir: [dashboard Stripe](#[Connexion Stripe | Se connecter au Dashboard Stripe](https://dashboard.stripe.com/apikeys))
 
     
-
-
-
-
 
    <u>Exemple</u>
 
@@ -94,8 +110,8 @@ export const environment = {
   
   ```typescript
   import { DBConfig } from "ngx-indexed-db";
-  
-  
+  ```
+
   export const appliDBConfig: DBConfig = {
        name: 'applicationDB',
        version: 1,
@@ -110,28 +126,24 @@ export const environment = {
           }
       ],
    };
-  ```
 
-
-
-
-
+```
 ### 3 Fournir le HttpInterceptorSDervice
 
-  Toujours dans `app.module.ts` il vous faut fournir l'intercepteur http fourni par aplose-framework-ng pour que les requêtes au back-end soit authorisées.
+Toujours dans `app.module.ts` il vous faut fournir l'intercepteur http fourni par aplose-framework-ng pour que les requêtes au back-end soit authorisées.
 
-  Importer `HttpInterceptorService` depuis aplose-framework-ng et l'inclure dans `providers` comme ceci:
+Importer `HttpInterceptorService` depuis aplose-framework-ng et l'inclure dans `providers` comme ceci:
 
 ```typescript
-  providers: [
-    provideHttpClient(),
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpInterceptorService,
-      multi: true
-    }
-  ],
+providers: [
+  provideHttpClient(),
+  { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpInterceptorService,
+    multi: true
+  }
+],
 ```
 
    Ainsi à chaque requête `HttpInterceptorService` ajoutera le token d'authentification dans le header de chaque requêtes.
@@ -184,38 +196,17 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 export class AppModule {}
 ```
 
-
-
-
-
-
-
 ## <u>AuthenticationService</u>
 
 Le package aplose-framework-ng implémente une solution d'authentification prête à l'emploi.
 
-
 #### <u><mark>Connexion</mark></u>
 
-Pour connecter un utilisateur, importer `AuthenticationService` et appeler la méthode `login$()` avec un `AuthRequestDto` en argument.
-
-
-
-En retour vous aurez un `Observable<AuthResponseDto>` contenant une entité `Token` et une entité `UserAccount`  .
-
-
-Le `Observable<AuthResponseDto>` que vous obtenez en retour vous permert de l'utilisé si besoin, le package aplose-framework-ng se charge de `mettre en mémoire` le token et les informations du compte `automatiquement` . 
-
+Pour connecter un utilisateur, importer `LoginComponent` et l'utiliser dans votre html 
 
 Vous pouvez également retrouver le UserAccount ulterieurement en utilisant la méthode `AuthenticationService.getLogedUserAccount$()`, elle ne prend pas de paramètre et retourne un `Observable<UserAccount | null>` (null si l'utilisateur n'est pas connecté) 
 
-
-
 Lors d'une connexion, les `rôles`, le `UserAccount` et le `Token` sont enregistré dans une indexedDB dédiée au package, elle est nommé `AploseFrameworkNg` et store est nommé `authentication`
-
-
-
-Le token à un temps de validité de ... jours.
 
 
 
@@ -226,17 +217,13 @@ login.page.html:
 ```typescript
   <ion-card>
     <ion-card-content>
-   
+
       <ion-card>
         <ion-card-content>
-           <form [formGroup]="loginForm">
-            <ion-input type="email" labelPlacement="floating" id="username" label="Email" formControlName="username"></ion-input>
-            <ion-input type="password" labelPlacement="floating" id="password" label="Mot de passe" formControlName="password"></ion-input>
-            <ion-button type="submit" id="submit" (click)="onLoginSubmit()">Se connecter</ion-button>
-          </form>
+           <lib-login />
         </ion-card-content>
       </ion-card>
-         
+
       <ion-card>
         <ion-card-content>
           <div id="googleButtonContainer"></div>
@@ -247,64 +234,39 @@ login.page.html:
   </ion-card>
 ```
 
-login.page.ts:
+login.module.ts:
 
 ```typescript
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthenticationService, UserAccount } from 'aplose-framework-ng';
 
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-@Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+import { IonicModule } from '@ionic/angular';
+
+import { LoginPageRoutingModule } from './login-routing.module';
+
+import { LoginPage } from './login.page';
+import { LoginComponent } from 'aplose-framework-ng';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    LoginPageRoutingModule,
+    ReactiveFormsModule,
+    LoginComponent
+  ],
+  declarations: [LoginPage]
 })
-export class LoginPage implements OnInit{
-
-  public loginForm!:FormGroup;
-
-  constructor(
-    private _authenticationService: AuthenticationService, 
-    private _route: ActivatedRoute, 
-    private _router: Router
-  ) {}
-
-  ngOnInit(){
-    this.loginForm = new FormGroup({
-      username: new FormControl(null, Validators.required),
-      password: new FormControl(null, Validators.required),
-    })
-  }
-
-
-  public onLoginSubmit(){
-    // loginForm.value correspond à l'interface AuthRequestDto
-    this._authenticationService.login$(this.loginForm.value).subscribe({
-        next: (response: AuthResponseDto) => {
-            // vous pouvez utiliser UserAccount si besoin
-            console.log('userAccount:', response.userAccount);
-            this._router.navigate(['/home']);
-          },
-        error: (e: Error) => {console.log('Error:', e.message);}
-    });
-  }
-}
+export class LoginPageModule {}
 
 ```
 
-
-
-
-
 #### <mark>deconnexion</mark>
 
-
-
 Pour deconnecter l'utilisateur, il faut appeler la méthode `AuthenticationService.logout()`, le package aplose-framework-ng efface alors les rôles, le token et le UserAccount de l'utilisateur.
-
-
 
 ##### <u>exemple:</u>
 
@@ -339,24 +301,11 @@ export class AppComponent {
     this._authenticationService.logout();
   }
 }
-
 ```
-
-
-
-
 
 #### <mark>Savoir si l'utilisateur est connecté</mark>
 
-
-
 Pour savoir si l'utilisateur est connecté, le package aplose-framework-ng propose une méthode dédiée qui retourne un `Observable<boolean>`, il s'agit de la méthode `AuthenticationService.isLoged$()`
-
-
-
-
-
-
 
 ## <u>GoogleAuthService</u>
 
@@ -655,9 +604,6 @@ Lors d'un premier achat pour un utilisateur, un compte `Customer` Stripe serat c
 
 Commencer par importer `NgxStripeModule` dans votre module principale ou dans le module de la page de payement en appelant la méthode `NgxStripeModule.forRoot(stripePublicKey: string)` avec comme argument votre clé publique Stripe.
 
-
-
-
 ##### <u>exemple:</u>
 
 checkout.module.ts:
@@ -688,7 +634,6 @@ import { environment } from 'src/environments/environment';
   declarations: [CheckoutPage]
 })
 export class PaymentPageModule {}
-
 ```
 
 src/app/model/Practice.ts:
@@ -745,13 +690,5 @@ export class PaymentPage implements OnInit {
   }
 }
 ```
-
-
-
-
-
-
-
-
 
 ## DictionnaryService

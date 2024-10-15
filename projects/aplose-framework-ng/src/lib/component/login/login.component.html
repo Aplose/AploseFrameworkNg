@@ -1,0 +1,12 @@
+<form [formGroup]="loginForm">
+    <ion-input type="email" labelPlacement="floating" id="username" label="Email" formControlName="username"></ion-input>
+    <ion-input type="password" labelPlacement="floating" id="password" label="Mot de passe" formControlName="password"></ion-input>
+
+    <ion-row class="ion-justify-content-end">
+        <ion-col size="auto">
+            <ion-button type="submit" id="submit" (click)="onLoginSubmit()">Se connecter</ion-button>
+        </ion-col>
+    </ion-row>
+    
+</form>
+<ion-text color="danger" class="ion-margin">{{loginMessage$ | async}}</ion-text>

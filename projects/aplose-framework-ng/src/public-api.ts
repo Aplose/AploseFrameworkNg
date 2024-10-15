@@ -28,7 +28,8 @@ export { ProposalService } from './lib/service/dolibarr/proposal.service';
 
 // COMPONENT
 export { PaymentComponent } from './lib/component/payment/payment.component';
-
+export { RegisterComponent } from './lib/component/register/register.component';
+export { LoginComponent } from './lib/component/login/login.component';
 
 // MODEL
 export { AppointmentType } from './lib/model/AppointmentType';
