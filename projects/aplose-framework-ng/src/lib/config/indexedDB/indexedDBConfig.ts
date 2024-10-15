@@ -1,4 +1,3 @@
-import { PLATFORM_ID } from "@angular/core";
 import { DBConfig } from "ngx-indexed-db";
 
 

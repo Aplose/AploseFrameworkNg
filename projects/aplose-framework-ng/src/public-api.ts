@@ -23,6 +23,7 @@ export { StripeAccountService } from './lib/service/stripe/stripe-account.servic
 export { UserAccountService } from './lib/service/user-account.service';
 export { ServiceService } from './lib/service/service.service';
 export { GoogleAuthService } from './lib/service/authentication/google/google-auth.service';
+export { ProposalService } from './lib/service/dolibarr/proposal.service';
 
 
 // COMPONENT
@@ -57,6 +58,7 @@ export { AuthResponseDTO } from './lib/dto/AuthResponseDTO';
 export { RegisterDto } from './lib/dto/RegisterDto';
 export { ServiceDto } from './lib/dto/ServiceDto';
 export { GoogleAuthResultDto} from './lib/dto/google/GoogleAuthResultDto';
+export { ProposalLineDTO } from './lib/dto/dolibarr/ProposalLineDTO';
 
 
 
@@ -64,6 +66,7 @@ export { GoogleAuthResultDto} from './lib/dto/google/GoogleAuthResultDto';
 export { RoleEnum } from './lib/enum/RoleEnum';
 export { AuthenticationTypeEnum } from './lib/enum/AuthenticationTypeEnum';
 export { RegisterTypeEnum } from './lib/enum/RegisterTypeEnum';
+export { ProposalProductTypeEnum } from './lib/enum/ProposalProductTypeEnum';
 
 
 
