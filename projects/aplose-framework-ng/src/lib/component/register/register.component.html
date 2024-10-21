@@ -20,6 +20,9 @@
             </ion-col>
           </ion-row>
           <ion-row class="ion-justify-content-end">
+            <ion-col size="auto">
+                <ion-button type="button" (click)="validationMode = false;">Annuler</ion-button>
+              </ion-col>
               <ion-col size="auto">
                   <ion-button type="submit">Valider</ion-button>
                 </ion-col>
@@ -72,6 +75,11 @@
             id="email" formControlName="userAccountUsername"></ion-input>
         </ion-item>
         
+        @if(usernameAllreadyExistError$ | async){
+            <ion-item>
+                <ion-text color="danger">Ce compte existe déjà.</ion-text>
+            </ion-item>
+        }
         
         <ion-item>
             <ion-input type="phone" autocomplete="on" name="tel" label="Téléphone" labelPlacement="floating" id="phone"
@@ -109,6 +117,11 @@
 
 
         <ion-row class="ion-justify-content-end">
+            <ion-col size="auto">
+                <ion-button type="submit" (click)="validationMode = true;" class="ion-margin-top">
+                    Entrer mon code d'activation
+                </ion-button>
+                </ion-col>
             <ion-col size="auto">
             <ion-button type="submit" [disabled]="registerForm.invalid" class="ion-margin-top">
                 S'enregistrer

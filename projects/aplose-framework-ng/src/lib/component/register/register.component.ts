@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Country } from '../../model/Country';
@@ -37,6 +37,9 @@ export class RegisterComponent {
   public accountActivationForm!: FormGroup;
   public wrongActivationCode: boolean = false;
   public expiredActivationCode: boolean = false;
+
+  public usernameAllreadyExistError$!: Observable<boolean>;
+  public usernameAllreadyExistTimeout!: any;
   
 
   constructor(
@@ -91,7 +94,18 @@ export class RegisterComponent {
         this._registerService.register$(this.registerForm.value)
         .subscribe({
           next: () => {this.validationMode = true},
-          error: (e: Error) => {console.log('ERROR:', e.message);}
+          error: (e: HttpErrorResponse) => {
+            console.log('ERROR:', e.error);
+            if(e.status === 400 && e.error === 'This username allready exist.'){
+              this.usernameAllreadyExistError$ = of(true);
+              clearTimeout(this.usernameAllreadyExistTimeout);
+              this.usernameAllreadyExistTimeout = setTimeout(() => {
+                this.usernameAllreadyExistError$ = of(false);
+              },
+                10000
+              )
+            }
+          }
         });
       }
   }
@@ -114,7 +128,7 @@ export class RegisterComponent {
     if(this.accountActivationForm.valid){
       this._registerService.activateUserAccount$(this.accountActivationForm.get('activationCode')?.value).subscribe({
         next: ()=>{
-          location.href = '/home';
+          this._router.navigate(['/home']);
         },
         error: (httpErrorResponse: HttpErrorResponse)=>{
           if(httpErrorResponse.status === 400){
