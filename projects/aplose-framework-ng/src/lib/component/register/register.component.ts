@@ -59,7 +59,7 @@ export class RegisterComponent {
       userAccountUsername: new FormControl('', [Validators.required, Validators.email]),
       userAccountPassword: new FormControl('', Validators.required),
       passwordRepeat: new FormControl('', Validators.required),
-      isProfessional: new FormControl(false),
+      isProfessional: new FormControl(this.forceIsProfessional),
       firstName: new FormControl('', [Validators.required, Validators.minLength(2)]),
       lastName: new FormControl('', [Validators.required, Validators.minLength(2)]),
       phone: new FormControl('', Validators.required),
@@ -95,8 +95,8 @@ export class RegisterComponent {
         .subscribe({
           next: () => {this.validationMode = true},
           error: (e: HttpErrorResponse) => {
-            console.log('ERROR:', e.error);
-            if(e.status === 400 && e.error === 'This username allready exist.'){
+            console.log('ERROR:', e);
+            if(e.status === 409 && e.error === 'This username (email address) allready exist.'){
               this.usernameAllreadyExistError$ = of(true);
               clearTimeout(this.usernameAllreadyExistTimeout);
               this.usernameAllreadyExistTimeout = setTimeout(() => {
