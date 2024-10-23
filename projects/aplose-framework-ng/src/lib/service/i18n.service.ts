@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class I18nService {
   private defaultLocale:string = 'fr-FR';
   private userDefaultLanguage!:string;
 
-  constructor(private idbService:NgxIndexedDBService, private httpClient:HttpClient) {
+  constructor(private idbService:NgxIndexedDBService, private httpClient:HttpClient, private configService:ConfigService) {
     if(window.navigator){
       this.userDefaultLanguage = window.navigator.language;
     }else{
@@ -18,22 +19,15 @@ export class I18nService {
     }
   }
 
-  async getT(key:string,defaultValue:string):Promise<string>{
-
+  async getTranslation(key:string,defaultValue:string):Promise<string>{
     // on selectionne la IndexedDB 'aploseFrameworkNg'
     this.idbService.selectDb('aploseFrameworkNg')
-
     //d'abord on regarde en local
     let value:string = await firstValueFrom(this.idbService.getByID<string>('translation',key),{ defaultValue: '' });
     //puis on regarde à distance en envoyant la locale et la valeur par défaut au cas ou
     if(value===''){
-//      this.httpClient.get<string>(environment.)
- //     value = await 
+      value= await firstValueFrom(this.httpClient.get<string>(this.configService.backendUrl + '/translation?code=' + key + '&defaultMessage=' + defaultValue)); //     value = await 
     }
-    
-    //si rien on essaye juste avec la langue
-
-    //si rien on garde la valeur par défaut...
     return value;
   }
 
