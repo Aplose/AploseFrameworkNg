@@ -45,20 +45,22 @@ export class LoginComponent {
 
 
   public onLoginSubmit() {
-    this._authenticationService.login$(this.loginForm.value).subscribe({
-      next: (response: AuthResponseDTO | null) => {
-        if (response){
-          this._router.navigate([this._route.snapshot.queryParams['returnUrl'] ?? '/'])
-        }else{
-          this.loginMessageSubject.next('Identifiants incorrectes');
-          clearTimeout(this.loginMessageTimeout);
-          this.loginMessageTimeout = setTimeout(() => {
-            this.loginMessageSubject.next(null);
-          }, 5000);
-        } 
+    if (this.loginForm.valid) {
+      this._authenticationService.login$(this.loginForm.value).subscribe({
+        next: (response: AuthResponseDTO | null) => {
+          if (response) {
+            this._router.navigate([this._route.snapshot.queryParams['returnUrl'] ?? '/'])
+          } else {
+            this.loginMessageSubject.next('Identifiants incorrectes');
+            clearTimeout(this.loginMessageTimeout);
+            this.loginMessageTimeout = setTimeout(() => {
+              this.loginMessageSubject.next(null);
+            }, 5000);
+          }
 
-      },
-      error: (e: Error) => { console.log('Error:', e.message); }
-    });
+        },
+        error: (e: Error) => { console.log('Error:', e.message); }
+      });
+    }
   }
 }

@@ -67,7 +67,7 @@ export class RegisterComponent {
       addressCountryCode: new FormControl('', [Validators.required, Validators.minLength(2)]),
       userAccountCompanyName: new FormControl({value: '', disabled: true}, Validators.required),
       authenticationType: new FormControl(AuthenticationTypeEnum.INTERNAL)
-    }, { validators: [this.passwordRepeatValidator] });
+    }, { validators: [this.passwordRepeatValidator, this.passwordComplexityValidation] });
 
     if(this.forceIsProfessional){
       this.registerForm.get('userAccountCompanyName')!.enable();
@@ -110,7 +110,16 @@ export class RegisterComponent {
       }
   }
 
-
+  public passwordComplexityValidation(formControl: AbstractControl): ValidationErrors | null{
+    const password = formControl.get('userAccountPassword');
+    const validatorRegExp = new RegExp('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!?@#$%^&*+-]).{8,}$');
+    if(validatorRegExp.test(password?.value)){
+      password?.setErrors(null);
+    } else {
+      password?.setErrors({passwordComplexityTooLow: true});
+    }
+    return null;
+  }
 
   public passwordRepeatValidator(formControl: AbstractControl): ValidationErrors | null {
     const password = formControl.get('userAccountPassword');
