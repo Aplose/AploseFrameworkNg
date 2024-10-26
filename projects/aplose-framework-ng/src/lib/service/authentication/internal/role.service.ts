@@ -24,7 +24,7 @@ export class RoleService implements OnInit{
 
 
     public getRoles$(): Observable<string[]>{
-        this._indexedDBService.selectDb('aploseFrameworkNg')
+        this._indexedDBService.selectDb('AploseFrameworkNg')
         return from(this._indexedDBService.getByKey<{key: string, value: string}>(this.storename, this.keyname).pipe(
             map((rolesSTR: {key: string, value: string}) => rolesSTR.value == null ? [] : rolesSTR.value.split(';')))
         )
@@ -32,7 +32,7 @@ export class RoleService implements OnInit{
 
 
     public setRoles(userAccount: UserAccount): void{
-        this._indexedDBService.selectDb('aploseFrameworkNg')
+        this._indexedDBService.selectDb('AploseFrameworkNg')
         let rolesSTR: string = '';
         userAccount.authorities.map(role => {
             rolesSTR += role.authority + ';';
@@ -42,7 +42,7 @@ export class RoleService implements OnInit{
 
 
     public deleteRoles(): void{
-        this._indexedDBService.selectDb('aploseFrameworkNg')
+        this._indexedDBService.selectDb('AploseFrameworkNg')
         this._indexedDBService.deleteByKey(this.storename, this.keyname).subscribe()
     }
 

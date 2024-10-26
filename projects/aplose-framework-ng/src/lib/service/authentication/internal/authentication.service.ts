@@ -81,19 +81,19 @@ export class AuthenticationService implements OnInit{
   };
 
   public saveLogedUserAccount(userAccount: UserAccount): void{
-    this._indexedDBService.selectDb('aploseFrameworkNg')
+    this._indexedDBService.selectDb('AploseFrameworkNg')
     this._indexedDBService.add(this.storeName, { key: this.keyName, value: userAccount}).subscribe();
   }
 
   public getLogedUserAccount$(): Observable<UserAccount | null>{
-    this._indexedDBService.selectDb('aploseFrameworkNg')
+    this._indexedDBService.selectDb('AploseFrameworkNg')
     return this._indexedDBService.getByKey<{key: String, value: UserAccount} | undefined>(this.storeName, this.keyName).pipe(
       map((store: any) => store ? store.value : null)
     );
   }
 
   private deleteLogedUserAccount(): void{
-    this._indexedDBService.selectDb('aploseFrameworkNg')
+    this._indexedDBService.selectDb('AploseFrameworkNg')
     this._indexedDBService.delete(this.storeName, this.keyName).subscribe();
   }
 }

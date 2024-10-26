@@ -9,7 +9,8 @@
 // MODULE
 export { AploseFrameworkNgModule } from './lib/aplose-framework-ng.module';
 
-
+//PIPE
+export { I18nPipe } from './lib/pipe/i18n.pipe';
 
 //SERVICE
 export { AuthGuardService } from './lib/guard/auth-guard.service';

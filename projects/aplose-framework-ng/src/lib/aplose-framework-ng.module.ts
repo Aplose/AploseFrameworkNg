@@ -3,20 +3,20 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { Config } from './model/Config';
 import { NgxStripeModule } from 'ngx-stripe';
 import { APLOSE_FRAMEWORK_NG_CONFIG } from './service/config.service';
+import { I18nPipe } from './pipe/i18n.pipe';
 
 
 
 @NgModule({ 
   declarations: [
-
   ], 
   imports: [
-    NgxStripeModule
+    NgxStripeModule,I18nPipe
   ], 
   providers: [
     provideHttpClient(withInterceptorsFromDi())
   ],
-  exports: []
+  exports: [I18nPipe]
 })
 
 export class AploseFrameworkNgModule {
