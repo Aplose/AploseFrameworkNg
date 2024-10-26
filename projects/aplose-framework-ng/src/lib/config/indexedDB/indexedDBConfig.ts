@@ -15,10 +15,10 @@ export const aploseDBConfig: DBConfig = {
         },
         {
             store: 'translation',
-            storeConfig: {keyPath: 'key', autoIncrement: false},
+            storeConfig: {keyPath: 'code', autoIncrement: false},
             storeSchema: [
-                { name: 'key', keypath: 'key', options: {unique: true}},
-                { name: 'value', keypath: 'value', options: {unique: false}}
+                { name: 'code', keypath: 'code', options: {unique: true}},
+                { name: 'locale', keypath: 'locale', options: {unique: false}},
             ]
         }
     ],

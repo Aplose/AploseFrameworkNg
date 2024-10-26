@@ -25,6 +25,7 @@ export { UserAccountService } from './lib/service/user-account.service';
 export { ServiceService } from './lib/service/service.service';
 export { GoogleAuthService } from './lib/service/authentication/google/google-auth.service';
 export { ProposalService } from './lib/service/dolibarr/proposal.service';
+export { I18nService } from './lib/service/i18n.service';
 
 
 // COMPONENT
@@ -72,4 +73,10 @@ export { ProposalProductTypeEnum } from './lib/enum/ProposalProductTypeEnum';
 
 
 
+// CONFIG
 export { aploseDBConfig } from './lib/config/indexedDB/indexedDBConfig';
+
+
+
+// PIPE
+export { I18nPipe } from './lib/pipe/i18n.pipe';

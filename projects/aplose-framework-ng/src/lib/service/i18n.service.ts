@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { firstValueFrom } from 'rxjs';
 import { ConfigService } from './config.service';
+import { TranslationDto } from '../dto/TranslationDto';
 
 @Injectable({
   providedIn: 'root'
@@ -22,14 +23,23 @@ export class I18nService {
   async getTranslation(key:string,defaultValue:string):Promise<string>{
     this.idbService.selectDb('AploseFrameworkNg')
     //d'abord on regarde en local
-    let value:string = await firstValueFrom(this.idbService.getByID<string>('translation',key),{ defaultValue: '' });
+    // let value:string = await firstValueFrom(this.idbService.getByID<string>('translation',key),{ defaultValue: '' });
+    let value: TranslationDto = await firstValueFrom(this.idbService.getByKey('translation', key));
     //puis on regarde à distance en envoyant la locale et la valeur par défaut au cas ou
-    if(value===''){
-      value= await firstValueFrom(this.httpClient.get<string>(this.configService.backendUrl + '/translation?code=' + key + '&defaultMessage=' + defaultValue)); //     value = await 
-      //on ajoute la traduction en local
-      this.idbService.add('translation',{ key: key, value: value });
+    if(!value){
+      // value = await firstValueFrom(this.httpClient.get<string>(this.configService.backendUrl + '/translation?code=' + key )); //     value = await 
+      value = await firstValueFrom(this.httpClient.get<TranslationDto>(this.configService.backendUrl + '/translation?code=' + key+'&defaultMessage='+defaultValue)); //     value = await 
+      this.idbService.add('translation', value).subscribe();
+    }else{
+      console.log('n\as pas fait de requête');
+      
     }
-    return value;
+    console.log('value:', value);
+    console.log('condition !value:', !value);
+    console.log('requete au back:', await firstValueFrom(this.httpClient.get<TranslationDto>(this.configService.backendUrl + '/translation?code=' + key )));
+    
+    
+    return value.message;
   }
 
 }
