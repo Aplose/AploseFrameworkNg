@@ -76,7 +76,3 @@ export { ProposalProductTypeEnum } from './lib/enum/ProposalProductTypeEnum';
 // CONFIG
 export { aploseDBConfig } from './lib/config/indexedDB/indexedDBConfig';
 
-
-
-// PIPE
-export { I18nPipe } from './lib/pipe/i18n.pipe';
