@@ -15,10 +15,10 @@ export const aploseDBConfig: DBConfig = {
         },
         {
             store: 'translation',
-            storeConfig: {keyPath: 'key', autoIncrement: false},
+            storeConfig: {keyPath: 'code', autoIncrement: false},
             storeSchema: [
-                { name: 'key', keypath: 'key', options: {unique: true}},
-                { name: 'value', keypath: 'value', options: {unique: false}}
+                { name: 'code', keypath: 'code', options: {unique: true}},
+                { name: 'locale', keypath: 'locale', options: {unique: false}},
             ]
         }
     ],
@@ -32,8 +32,8 @@ export const aploseDBConfig: DBConfig = {
                 if (db.objectStoreNames.contains('translation')) {
                     db.deleteObjectStore('translation');
                 }
-                const translationStore = db.createObjectStore('translation', { keyPath: 'key', autoIncrement: false });
-                translationStore.createIndex('key', 'key', { unique: true });
+                const translationStore = db.createObjectStore('translation', { keyPath: 'code', autoIncrement: false });
+                translationStore.createIndex('code', 'code', { unique: true });
                 console.log('migration 2: ObjectStore translation recréé');
                 console.log('migration 2: Recréation de l\'objectStore authentication');
                 if (db.objectStoreNames.contains('authentication')) {
