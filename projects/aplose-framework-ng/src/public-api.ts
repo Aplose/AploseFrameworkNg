@@ -52,6 +52,9 @@ export { Person } from './lib/model/Person';
 export { Address } from './lib/model/Address';
 export { GoogleButtonOptions } from './lib/model/google/GoogleButtonOptions';
 export { PaymentIntentResult, PaymentMethodResult } from '@stripe/stripe-js';
+export { DolibarrObject } from './lib/model/dolibarr/DolibarrObject';
+export { Proposal } from './lib/model/dolibarr/Proposal';
+export { ProposalLine } from './lib/model/dolibarr/ProposalLine';
 
 
 

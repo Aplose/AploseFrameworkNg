@@ -30,15 +30,7 @@ export class I18nService {
       // value = await firstValueFrom(this.httpClient.get<string>(this.configService.backendUrl + '/translation?code=' + key )); //     value = await 
       value = await firstValueFrom(this.httpClient.get<TranslationDto>(this.configService.backendUrl + '/translation?code=' + key+'&defaultMessage='+defaultValue)); //     value = await 
       this.idbService.add('translation', value).subscribe();
-    }else{
-      console.log('n\as pas fait de requête');
-      
     }
-    console.log('value:', value);
-    console.log('condition !value:', !value);
-    console.log('requete au back:', await firstValueFrom(this.httpClient.get<TranslationDto>(this.configService.backendUrl + '/translation?code=' + key )));
-    
-    
     return value.message;
   }
 
