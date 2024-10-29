@@ -1,4 +1,5 @@
 #!/bin/bash
+rm -rf ./dist/aplose-framework-ng
 ng build aplose-framework-ng
 cd ./dist/aplose-framework-ng
 npm pack

@@ -22,13 +22,9 @@ export class I18nService {
 
   async getTranslation(key:string,defaultValue:string):Promise<string>{
     this.idbService.selectDb('AploseFrameworkNg')
-    //d'abord on regarde en local
-    // let value:string = await firstValueFrom(this.idbService.getByID<string>('translation',key),{ defaultValue: '' });
     let value: TranslationDto = await firstValueFrom(this.idbService.getByKey('translation', key));
-    //puis on regarde à distance en envoyant la locale et la valeur par défaut au cas ou
     if(!value){
-      // value = await firstValueFrom(this.httpClient.get<string>(this.configService.backendUrl + '/translation?code=' + key )); //     value = await 
-      value = await firstValueFrom(this.httpClient.get<TranslationDto>(this.configService.backendUrl + '/translation?code=' + key+'&defaultMessage='+defaultValue)); //     value = await 
+      value = await firstValueFrom(this.httpClient.get<TranslationDto>(this.configService.backendUrl + '/translation?code=' + key+'&defaultMessage='+defaultValue));
       this.idbService.add('translation', value).subscribe();
     }
     return value.message;
