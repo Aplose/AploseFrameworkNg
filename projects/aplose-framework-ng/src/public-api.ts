@@ -26,12 +26,14 @@ export { ServiceService } from './lib/service/service.service';
 export { GoogleAuthService } from './lib/service/authentication/google/google-auth.service';
 export { ProposalService } from './lib/service/dolibarr/proposal.service';
 export { I18nService } from './lib/service/i18n.service';
+export { ProductService } from './lib/service/dolibarr/product.service';
 
 
 // COMPONENT
 export { PaymentComponent } from './lib/component/payment/payment.component';
 export { RegisterComponent } from './lib/component/register/register.component';
 export { LoginComponent } from './lib/component/login/login.component';
+export { ProposalValidationComponent } from './lib/component/proposal-validation/proposal-validation.component';
 
 // MODEL
 export { AppointmentType } from './lib/model/AppointmentType';
@@ -55,6 +57,11 @@ export { PaymentIntentResult, PaymentMethodResult } from '@stripe/stripe-js';
 export { DolibarrObject } from './lib/model/dolibarr/DolibarrObject';
 export { Proposal } from './lib/model/dolibarr/Proposal';
 export { ProposalLine } from './lib/model/dolibarr/ProposalLine';
+export { Category } from './lib/model/dolibarr/Category';
+export { CategoryFlat } from './lib/model/dolibarr/CategoryFlat';
+export { DocumentFile } from './lib/model/dolibarr/DocumentFile';
+export { DolibarrDocument } from './lib/model/dolibarr/DolibarrDocument';
+export { Product } from './lib/model/dolibarr/Product';
 
 
 

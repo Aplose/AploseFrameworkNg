@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ProposalLineDTO } from '../../../public-api';
+import { ProposalLine, ProposalLineDTO } from '../../../public-api';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { ConfigService } from '../config.service';
 import { HttpClient } from '@angular/common/http';
@@ -39,6 +39,13 @@ export class ProposalService {
 
 
   /**
-   * Augmenter la 
+   * Mettre à jour une ligne du devis en cours  
    */
+  public updateProposalLine$ = (proposalLine: ProposalLine): Observable<void> => this._httpClient.put<void>(`${this._configService.backendUrl}/dolibarr/proposal/lines/${proposalLine.rowid}`, proposalLine);
+
+
+  /**
+   * Supprimer une ligne du devis en cours
+   */
+  public deleteProposalLine$ = (proposalLineId: number): Observable<void> => this._httpClient.delete<void>(`${this._configService.backendUrl}/dolibarr/proposal/lines/${proposalLineId}`);
 }

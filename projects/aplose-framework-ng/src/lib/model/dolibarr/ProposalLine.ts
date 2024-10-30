@@ -3,7 +3,7 @@
 
 export interface ProposalLine{
 
-    rowid: string,
+    rowid: number,
     fk_propal: number, // ID de la proposition
     product_label: string,// Optionnel, si tu as un label spécifique
     fk_product: number,   // ID du produit, ou null si ce n'est pas lié à un produit

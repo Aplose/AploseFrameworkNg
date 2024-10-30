@@ -34,6 +34,7 @@ export const aploseDBConfig: DBConfig = {
                 }
                 const translationStore = db.createObjectStore('translation', { keyPath: 'code', autoIncrement: false });
                 translationStore.createIndex('code', 'code', { unique: true });
+                translationStore.createIndex('locale', 'locale', { unique: false });
                 console.log('migration 2: ObjectStore translation recréé');
                 console.log('migration 2: Recréation de l\'objectStore authentication');
                 if (db.objectStoreNames.contains('authentication')) {
