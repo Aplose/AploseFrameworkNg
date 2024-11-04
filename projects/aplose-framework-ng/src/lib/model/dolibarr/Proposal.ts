@@ -6,10 +6,10 @@ import { ProposalLine } from "./ProposalLine";
 export interface Proposal extends DolibarrObject{
 
     socid: number,  
-    datec: string,
-    datep: string,
-    date_valid: string,
-    date_cloture: string,
+    datec: number,
+    datep: number,
+    date_validation: number,
+    date_cloture: number,
     total_ht: number,
     total: number,
     tva: number,

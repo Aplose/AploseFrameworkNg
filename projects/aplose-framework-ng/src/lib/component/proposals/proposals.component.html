@@ -1,0 +1,59 @@
+
+
+@if(!(proposals$ | async) || (proposals$ | async)?.length! < 1){
+    <ion-text>
+        {{'aplose-framework-ng.proposals-component.ion-text.you-not-have-proposals' | i18n:'Vous n\'avez pas de devis pour le moment' | async}}
+    </ion-text>
+}
+@else {
+    <ion-grid>
+        <ion-row class="header">
+          <ion-col>
+            <ion-text>
+              {{'aplose-framework-ng.proposals-component.ion-grid-header.proposal-reference' | i18n:'Référence devis' | async}}
+            </ion-text>
+          </ion-col>
+          <ion-col>
+            <ion-text>
+              {{'aplose-framework-ng.proposals-component.ion-grid-header.proposal-validation-date' | i18n:'Date de validation' | async}}
+            </ion-text>
+          </ion-col>
+          <ion-col>
+            <ion-text>
+              {{'aplose-framework-ng.proposals-component.ion-grid-header.proposal-ht-total' | i18n:'Total HT' | async}}
+            </ion-text>
+          </ion-col>
+          <ion-col>
+            <ion-text>
+              {{'aplose-framework-ng.proposals-component.ion-grid-header.proposal-tva' | i18n:'TVA' | async}}
+            </ion-text>
+          </ion-col>
+          <ion-col>
+            <ion-text>
+              {{'aplose-framework-ng.proposals-component.ion-grid-header.proposal-ttc-total' | i18n:'Total TTC' | async}}
+            </ion-text>
+          </ion-col>
+        </ion-row>
+    
+        @for (proposal of (proposals$ | async); track $index) {
+          <ion-row>
+            <ion-col>
+              <ion-text>{{proposal.ref}}</ion-text>
+            </ion-col>
+            <ion-col>
+              <ion-text>{{ 1000 * proposal.date_validation | date:'dd/MM/yyyy H:mm' }}</ion-text>
+            </ion-col>
+            <ion-col>
+              <ion-text>{{proposal.total_ht}} €</ion-text>
+            </ion-col>
+            <ion-col>
+              <ion-text>{{proposal.tva}}</ion-text>
+            </ion-col>
+            <ion-col>
+              <ion-text>{{proposal.total}} €</ion-text>
+            </ion-col>
+          </ion-row>
+        }
+    
+      </ion-grid>
+}

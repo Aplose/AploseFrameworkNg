@@ -16,7 +16,7 @@ export class ProposalService {
    * Ajouter un produit au devis (Proposal) en cours
    */
   public addProduct$ = (proposalLine: ProposalLineDTO): Observable<number> => {
-    return this._httpClient.post<number>(`${this._configService.backendUrl}/dolibarr/proposals/line`, proposalLine).pipe(
+    return this._httpClient.post<number>(`${this._configService.backendUrl}/dolibarr/proposal/lines`, proposalLine).pipe(
       map((proposalLineId: number) => {
         if (proposalLineId === 0) {
           throw new Error('Erreur côté serveur : le produit n\'as pas était ajouté.');
@@ -48,4 +48,17 @@ export class ProposalService {
    * Supprimer une ligne du devis en cours
    */
   public deleteProposalLine$ = (proposalLineId: number): Observable<void> => this._httpClient.delete<void>(`${this._configService.backendUrl}/dolibarr/proposal/lines/${proposalLineId}`);
+
+
+  /**
+   * Récupèrer tous les devis
+   */
+  public getAll$ = (): Observable<Proposal[]> => this._httpClient.get<Proposal[]>(`${this._configService.backendUrl}/dolibarr/proposals`);
+
+
+  /**
+   * Valider le devis en cours
+   */
+  public validateProposal$ = (): Observable<any> => this._httpClient.post(`${this._configService.backendUrl}/dolibarr/proposal/validate`, null, {responseType: 'text' as 'json'});
+
 }

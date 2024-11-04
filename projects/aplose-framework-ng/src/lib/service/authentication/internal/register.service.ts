@@ -19,7 +19,7 @@ export class RegisterService {
     this._httpClient.post<UserAccount>(`${this._configService.backendUrl}/register`, body);
 
   public activateUserAccount$ = (activationCode: string): Observable<string> => 
-    this._httpClient.patch<string>(`${this._configService.backendUrl}/account-activation/${activationCode}`, {});
+    this._httpClient.patch<string>(`${this._configService.backendUrl}/account-activation/${activationCode}`, null, { responseType: 'text' as 'json' });
 
 
   // GOOGLE

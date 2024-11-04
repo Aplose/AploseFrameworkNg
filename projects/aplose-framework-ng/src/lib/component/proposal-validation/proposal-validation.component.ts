@@ -18,25 +18,27 @@ import { CommonModule } from '@angular/common';
 })
 export class ProposalValidationComponent {
   private proposalSubject = new BehaviorSubject<Proposal | null>(null);
-  
+
   public proposal$ = this.proposalSubject.asObservable();
   public productImagesSrc: Record<string, Observable<Product>> = {};
-  public initialLinesQuantities: Record<number, {initialQty: string | number, newQty: string | number}> = {};
-  
+  public initialLinesQuantities: Record<number, { initialQty: string | number, newQty: string | number }> = {};
+
 
   constructor(
     private _proposalService: ProposalService,
     private _productService: ProductService,
-  ) {}
+  ) { }
 
   async ngOnInit() {
     this._proposalService.getPendingProposal$().subscribe((proposal: Proposal) => {
-      proposal.lines.forEach((line: ProposalLine) => {
-        this.initialLinesQuantities[line.rowid] = {initialQty: line.qty, newQty: line.qty};
-        this._productService.loadProductImageById(line.fk_product).subscribe((product: Product) => {
-          this.productImagesSrc[product.id] = of(product);
+      if (proposal && proposal.lines) {
+        proposal.lines.forEach((line: ProposalLine) => {
+          this.initialLinesQuantities[line.rowid] = { initialQty: line.qty, newQty: line.qty };
+          this._productService.loadProductImageById(line.fk_product).subscribe((product: Product) => {
+            this.productImagesSrc[product.id] = of(product);
+          });
         });
-      });
+      }
       this.proposalSubject.next(proposal);
     });
   }
@@ -52,8 +54,8 @@ export class ProposalValidationComponent {
   }
 
 
-  public setQuantity(proposalLine: ProposalLine, newQuantity: string | number, inputElement: IonInput): void{
-    if(newQuantity as number <= 0){
+  public setQuantity(proposalLine: ProposalLine, newQuantity: string | number, inputElement: IonInput): void {
+    if (newQuantity as number <= 0) {
       newQuantity = 1;
       inputElement.value = 1;
     }
@@ -61,7 +63,7 @@ export class ProposalValidationComponent {
   }
 
 
-  public setQuantityToInitial(proposalLine: ProposalLine, inputElement: IonInput){
+  public setQuantityToInitial(proposalLine: ProposalLine, inputElement: IonInput) {
     this.initialLinesQuantities[proposalLine.rowid].newQty = this.initialLinesQuantities[proposalLine.rowid].initialQty;
     inputElement.value = this.initialLinesQuantities[proposalLine.rowid].initialQty;
   }
@@ -71,5 +73,16 @@ export class ProposalValidationComponent {
     proposalLine.qty = this.initialLinesQuantities[proposalLine.rowid].newQty as number;
     this.initialLinesQuantities[proposalLine.rowid].initialQty = this.initialLinesQuantities[proposalLine.rowid].newQty as number;
     this._proposalService.updateProposalLine$(proposalLine).subscribe();
+  }
+
+
+  public validateProposal(): void {
+    this._proposalService.validateProposal$().subscribe({
+      next: () => {
+        console.log('fonctionnalité à finir (validation devis)')
+        console.log('devis validé');
+        this.ngOnInit();
+      }
+    })
   }
 }

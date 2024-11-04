@@ -136,8 +136,8 @@ export class RegisterComponent {
   public onAccountValidationSubmit(e: Event): void{
     if(this.accountActivationForm.valid){
       this._registerService.activateUserAccount$(this.accountActivationForm.get('activationCode')?.value).subscribe({
-        next: ()=>{
-          this._router.navigate(['/home']);
+        next: (result: string) => {
+          this._router.navigate(['/login']);
         },
         error: (httpErrorResponse: HttpErrorResponse)=>{
           if(httpErrorResponse.status === 400){
