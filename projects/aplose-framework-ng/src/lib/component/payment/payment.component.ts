@@ -1,15 +1,21 @@
 import { Component, Input, Output, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { PaymentIntent, PaymentIntentResult, PaymentMethodResult, StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
 import { NgxStripeModule, StripeCardComponent, StripeService } from 'ngx-stripe';
 import { Service } from '../../model/Service';
 import { Observable, of } from 'rxjs';
 import { StripePaymentService } from '../../service/stripe/stripe-payment.service';
 import { ViewEncapsulation } from '@angular/core';
+import { I18nPipe } from '../../pipe/i18n.pipe';
 
 @Component({
   selector: 'lib-payment',
   standalone: true,
-  imports: [NgxStripeModule],
+  imports: [
+    NgxStripeModule,
+    I18nPipe,
+    CommonModule
+  ],
   templateUrl: './payment.component.html',
   styleUrl: './payment.component.scss',
   encapsulation: ViewEncapsulation.Emulated

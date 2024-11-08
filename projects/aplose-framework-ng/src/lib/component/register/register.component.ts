@@ -10,6 +10,7 @@ import { RegisterService } from '../../service/authentication/internal/register.
 import {IonicModule, PopoverController} from '@ionic/angular'
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
+import { I18nPipe } from '../../pipe/i18n.pipe';
 import { CountrySelectorComponent } from '../country-selector/country-selector.component';
 
 @Component({
@@ -18,7 +19,8 @@ import { CountrySelectorComponent } from '../country-selector/country-selector.c
   imports: [
     CommonModule,
     IonicModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    I18nPipe
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
@@ -43,6 +45,8 @@ export class RegisterComponent {
 
   public usernameAllreadyExistError$!: Observable<boolean>;
   public usernameAllreadyExistTimeout!: any;
+
+  isProfessional: boolean = false;
   
 
   constructor(
@@ -76,9 +80,11 @@ export class RegisterComponent {
 
     if(this.forceIsProfessional){
       this.registerForm.get('userAccountCompanyName')!.enable();
+      this.isProfessional = true;
     }else{
       this.registerForm.get('isProfessional')!.valueChanges.subscribe((isProfessional: boolean) => {
         isProfessional ? this.registerForm.get('userAccountCompanyName')!.enable() : this.registerForm.get('userAccountCompanyName')!.disable();
+        this.isProfessional = isProfessional;
       });
     }
 
@@ -147,6 +153,7 @@ export class RegisterComponent {
   }
 
   public passwordComplexityValidation(formControl: AbstractControl): ValidationErrors | null{
+    return null;
     const password = formControl.get('userAccountPassword');
     const validatorRegExp = new RegExp('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!?@#$%^&*+-]).{8,}$');
     if(validatorRegExp.test(password?.value)){

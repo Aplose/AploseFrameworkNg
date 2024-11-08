@@ -35,6 +35,7 @@ export { RegisterComponent } from './lib/component/register/register.component';
 export { LoginComponent } from './lib/component/login/login.component';
 export { ProposalValidationComponent } from './lib/component/proposal-validation/proposal-validation.component';
 export { ProposalsComponent } from './lib/component/proposals/proposals.component';
+export { VizuLiveComponent } from './lib/component/vizu-live/vizu-live.component';
 
 // MODEL
 export { AppointmentType } from './lib/model/AppointmentType';

@@ -1,28 +1,19 @@
-
-
-<div class="stripe" ngxStripeCardGroup [elementsOptions]="elementsOptions" >
-
+<div class="stripe" ngxStripeCardGroup [elementsOptions]="elementsOptions">
     <div>
-    
-    
-        <h1>Service: {{service?.name}}</h1>
+        <h1>{{ 'payment-component-service-title' | i18n:'Service' | async }}: {{service?.name}}</h1>
 
-        <h2>Durée: {{service?.minuteDuration}} min</h2>
-        <h2>Prix: {{service?.price! / 100}}</h2>
-
+        <h2>{{ 'payment-component-duration' | i18n:'Durée' | async }}: {{service?.minuteDuration}} {{ 'payment-component-minutes' | i18n:'min' | async }}</h2>
+        <h2>{{ 'payment-component-price' | i18n:'Prix' | async }}: {{service?.price! / 100}} €</h2>
     </div>
 
     <ngx-stripe-elements>
-
-    <!-- <ion-card class="ion-padding"> -->
         <ngx-stripe-card [options]="cardOptions"></ngx-stripe-card>
-    <!-- </ion-card> -->
     
-    <div class="stripe-checkout-button-container">
-
-        <h4>Vous êtes sur le point de payer pour {{service.name}}</h4>
-        <button class="stripe-checkout-button" type="submit" (click)="createPaymentMethod()">Payer {{service.price / 100}} €</button>
-    </div>
-    
+        <div class="stripe-checkout-button-container">
+            <h4>{{ 'payment-component-about-to-pay' | i18n:'Vous êtes sur le point de payer pour' | async }} {{service.name}}</h4>
+            <button class="stripe-checkout-button" type="submit" (click)="createPaymentMethod()">
+                {{ 'payment-component-pay-button' | i18n:'Payer' | async }} {{service.price / 100}} €
+            </button>
+        </div>
     </ngx-stripe-elements>
 </div>

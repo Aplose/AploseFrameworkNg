@@ -1,37 +1,34 @@
 @if(validationMode){
-@if(wrongActivationCode){
-<ion-text color="danger" class="ion-margin-bottom">
-    Ce code d'activation est incorrecte.
-</ion-text>
-}
-@else if (expiredActivationCode) {
-<ion-text color="warning">
-    Ce code d'activation est expiré...
-    Restez serein, nous venons de vous envoyez un nouveau code d'activation, merci de le renseigner.
-</ion-text>
-}
-
-<form [formGroup]="accountActivationForm" (submit)="onAccountValidationSubmit($event)">
-    <ion-grid>
-        <ion-row>
+    @if(wrongActivationCode){
+        <ion-text color="danger" class="ion-margin-bottom">
+          {{ 'register-component-wrong-activation-code' | i18n:'Ce code d\'activation est incorrect.' | async }}
+        </ion-text>
+      }
+      @else if (expiredActivationCode) {
+        <ion-text color="warning">
+          {{ 'register-component-expired-activation-code' | i18n:'Ce code d\'activation est expiré...' | async }}
+          {{ 'register-component-new-activation-code-sent' | i18n:'Restez serein, nous venons de vous envoyez un nouveau code d\'activation, merci de le renseigner.' | async }}
+        </ion-text>
+      }
+      
+      <form [formGroup]="accountActivationForm" (submit)="onAccountValidationSubmit($event)">
+        <ion-grid>
+          <ion-row>
             <ion-col>
-                <ion-input fill="outline" label="Code de validation" labelPlacement="floating"
-                    formControlName="activationCode"></ion-input>
+              <ion-input fill="outline" [label]="'register-component-validation-code' | i18n:'Code de validation' | async" labelPlacement="floating" formControlName="activationCode"></ion-input>
             </ion-col>
         </ion-row>
         <ion-row class="ion-justify-content-end">
             <ion-col size="auto">
-                <ion-button type="button" (click)="validationMode = false;">Annuler</ion-button>
-            </ion-col>
-            <ion-col size="auto">
-                <ion-button type="submit">Valider</ion-button>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
-</form>
+                <ion-button type="button" (click)="validationMode = false;">{{ 'register-component-cancel' | i18n:'Annuler' | async }}</ion-button>
+              </ion-col>
+              <ion-col size="auto">
+                  <ion-button type="submit">{{ 'register-component-validate' | i18n:'Valider' | async }}</ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+      </form>
 }
-
-
 
 @else {
 @if(registerForm){
@@ -40,14 +37,22 @@
     <ion-list class="ion-margin-bottom">
 
         <ion-item>
-            <ion-select label="Civilité" labelPlacement="floating" placeholder="Selectionner votre civilité"
-                id="personCivility" formControlName="civilityRowid">
-                @for(civility of civilities$ | async; track $index){
-                <ion-select-option [value]="civility.rowid">{{civility.label}}</ion-select-option>
-                }
+            <ion-select [label]="'register-component-civility' | i18n:'Civilité' | async" labelPlacement="floating" [placeholder]="'register-component-select-civility' | i18n:'Selectionner votre civilité' | async"
+            id="personCivility" formControlName="civilityRowid">
+            @for(civility of civilities$ | async; track $index){
+            <ion-select-option [value]="civility.rowid">{{civility.label}}</ion-select-option>
+            }
             </ion-select>
         </ion-item>
 
+        <ion-item>
+            <ion-input type="text" autocomplete="on" name="given-name" [label]="'register-component-firstname' | i18n:'Prénom' | async" labelPlacement="floating"
+            id="personFirstName" formControlName="firstName"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-input type="text" autocomplete="on" name="family-name" [label]="'register-component-lastname' | i18n:'Nom' | async" labelPlacement="floating"
+            helperText="" id="personLastName" formControlName="lastName"></ion-input>
+        </ion-item>
         <ion-item (click)="openCountrySelector($event)">
             <ion-input style="display: none;" placeholder="Choisissez un pays" formControlName="addressCountryCode">
 
@@ -55,73 +60,63 @@
             <ion-label>{{selectedCountry !== '' ? selectedCountry : 'Choisissez un pays'}}</ion-label>
             <ion-icon name="caret-down-sharp" color="medium" size="small"></ion-icon>
         </ion-item>
-
         <ion-item>
-            <ion-input type="text" autocomplete="on" name="family-name" label="Nom" labelPlacement="floating"
-                helperText="" id="personLastName" formControlName="lastName"></ion-input>
-        </ion-item>
-
-        <ion-item>
-            <ion-input type="text" autocomplete="on" name="given-name" label="Prénom" labelPlacement="floating"
-                id="personFirstName" formControlName="firstName"></ion-input>
-        </ion-item>
-
-
-        <ion-item>
-            <ion-input type="email" autocomplete="on" name="email" label="Email" labelPlacement="floating" helperText=""
-                id="email" formControlName="userAccountUsername"></ion-input>
+            <ion-input type="email" autocomplete="on" name="email" [label]="'register-component-email' | i18n:'Email' | async" labelPlacement="floating" helperText=""
+            id="email" formControlName="userAccountUsername"></ion-input>
         </ion-item>
 
         @if(usernameAllreadyExistError$ | async){
-        <ion-item>
-            <ion-text color="danger">Ce compte existe déjà.</ion-text>
-        </ion-item>
+            <ion-item>
+                <ion-text color="danger">{{ 'register-component-account-exists' | i18n:'Ce compte existe déjà.' | async }}</ion-text>
+            </ion-item>
         }
 
         <ion-item>
-            <ion-input type="phone" autocomplete="on" name="tel" label="Téléphone" labelPlacement="floating" id="phone"
-                formControlName="phone"></ion-input>
+            <ion-input type="phone" autocomplete="on" name="tel" [label]="'register-component-phone' | i18n:'Téléphone' | async" labelPlacement="floating" id="phone"
+            formControlName="phone"></ion-input>
         </ion-item>
 
         @if( ! forceIsProfessional){
         <ion-item>
             <ion-checkbox id="isProfessionalCheckbox" labelPlacement="end" formControlName="isProfessional">
                 <ion-label>
-                    Je suis un professionnel et demande un compte professionnel
+                    {{ 'register-component-is-professional' | i18n:'Je suis un professionnel et demande un compte professionnel' | async }}
                 </ion-label>
             </ion-checkbox>
         </ion-item>
         }
 
+        @if(isProfessional){
         <ion-item>
-            <ion-input label="Raison sociale" labelPlacement="floating" id="userAccountCompanyName"
-                formControlName="userAccountCompanyName"></ion-input>
+            <ion-input label="{{ 'register-component-company-name' | i18n:'Raison sociale' | async }}" labelPlacement="floating" 
+            id="userAccountCompanyName" formControlName="userAccountCompanyName"></ion-input>
         </ion-item>
+        }
 
         <ion-item>
-            <ion-input type="password" label="Mot de passe" labelPlacement="floating" id="password"
-                formControlName="userAccountPassword">
+            <ion-input type="password" [label]="'register-component-password' | i18n:'Mot de passe' | async" labelPlacement="floating" id="password"
+            formControlName="userAccountPassword">
             </ion-input>
         </ion-item>
 
         <ion-item>
-            <ion-input type="password" label="Vérification mot de passe" labelPlacement="floating" id=" passwordRepeat"
-                formControlName="passwordRepeat">
+            <ion-input type="password" [label]="'register-component-password-verification' | i18n:'Vérification mot de passe' | async" labelPlacement="floating" id=" passwordRepeat"
+            formControlName="passwordRepeat">
             </ion-input>
         </ion-item>
 
     </ion-list>
 
 
-    <ion-row class="ion-justify-content-end">
-        <ion-col size="auto">
-            <ion-button type="submit" (click)="validationMode = true;" class="ion-margin-top">
-                Entrer mon code d'activation
-            </ion-button>
-        </ion-col>
-        <ion-col size="auto">
+        <ion-row class="ion-justify-content-end">
+            <ion-col size="auto">
+                <ion-button type="submit" (click)="validationMode = true;" class="ion-margin-top">
+                    {{ 'register-component-enter-activation-code' | i18n:'Entrer mon code d\'activation' | async }}
+                </ion-button>
+                </ion-col>
+            <ion-col size="auto">
             <ion-button type="submit" [disabled]="registerForm.invalid" class="ion-margin-top">
-                S'enregistrer
+                {{ 'register-component-register' | i18n:'S\'enregistrer' | async }}
             </ion-button>
         </ion-col>
     </ion-row>

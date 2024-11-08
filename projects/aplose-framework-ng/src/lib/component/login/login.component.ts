@@ -10,11 +10,17 @@ import { UserAccount } from '../../model/UserAccount';
 import { IonText } from "@ionic/angular/standalone";
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
+import { I18nPipe } from '../../pipe/i18n.pipe';
 
 @Component({
   selector: 'lib-login',
   standalone: true,
-  imports: [IonicModule, ReactiveFormsModule, CommonModule],
+  imports: [
+    IonicModule, 
+    ReactiveFormsModule, 
+    CommonModule,
+    I18nPipe
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })

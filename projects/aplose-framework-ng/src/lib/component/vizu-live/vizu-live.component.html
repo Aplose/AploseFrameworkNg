@@ -1,0 +1,57 @@
+<ion-content>
+  <!-- Zone principale de la visio -->
+  <div class="video-container">
+    <div class="remote-video">
+      <video #remoteVideo autoplay playsinline></video>
+    </div>
+    <div class="local-video">
+      <video #localVideo autoplay playsinline muted></video>
+    </div>
+
+    <!-- Contrôles de la visio -->
+    <div class="controls-container">
+      <ion-button fill="clear" (click)="toggleChat()">
+        <ion-icon [name]="isChatVisible ? 'chatbubbles' : 'chatbubbles-outline'"></ion-icon>
+      </ion-button>
+
+      <ion-button fill="clear" (click)="toggleMic()">
+        <ion-icon [name]="isMicOn ? 'mic' : 'mic-off'"></ion-icon>
+      </ion-button>
+
+      <ion-button fill="clear" (click)="toggleCamera()">
+        <ion-icon [name]="isCameraOn ? 'videocam' : 'videocam-off'"></ion-icon>
+      </ion-button>
+
+      <ion-button color="danger" (click)="hangUp()">
+        <ion-icon name="call" class="hangup-icon"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- Zone de chat -->
+  <div class="chat-container" [class.chat-hidden]="!isChatVisible">
+    <div class="messages" #messageContainer>
+      <div *ngFor="let message of messages" class="message" [class.own-message]="message.isOwn">
+        <div class="message-content">
+          <p class="sender">{{message.sender}}</p>
+          <p class="text">{{message.text}}</p>
+          <img *ngIf="message.imageUrl" [src]="message.imageUrl" class="message-image">
+        </div>
+        <p class="time">{{message.time | date:'HH:mm'}}</p>
+      </div>
+    </div>
+
+    <div class="chat-input">
+      <ion-button fill="clear" (click)="openFileInput()">
+        <ion-icon name="attach"></ion-icon>
+      </ion-button>
+      <input type="file" #fileInput hidden (change)="handleFileInput($event)" accept="image/*,.pdf,.doc,.docx">
+      
+      <ion-input placeholder="Votre message..." [(ngModel)]="newMessage"></ion-input>
+      
+      <ion-button fill="clear" (click)="sendMessage()">
+        <ion-icon name="send"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

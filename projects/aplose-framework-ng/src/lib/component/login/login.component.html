@@ -1,12 +1,31 @@
 <form [formGroup]="loginForm">
-    <ion-input type="email" labelPlacement="floating" id="username" label="Email" formControlName="username"></ion-input>
-    <ion-input type="password" labelPlacement="floating" id="password" label="Mot de passe" formControlName="password"></ion-input>
+    <ion-input 
+        type="email" 
+        labelPlacement="floating" 
+        id="username" 
+        [label]="'login-component-email-label' | i18n:'Email' | async" 
+        [placeholder]="'login-component-email-placeholder' | i18n:'Entrez votre adresse email' | async"
+        formControlName="username">
+    </ion-input>
+
+    <ion-input 
+        type="password" 
+        labelPlacement="floating" 
+        id="password" 
+        [label]="'login-component-password-label' | i18n:'Mot de passe' | async"
+        [placeholder]="'login-component-password-placeholder' | i18n:'Entrez votre mot de passe' | async" 
+        formControlName="password">
+    </ion-input>
 
     <ion-row class="ion-justify-content-end">
         <ion-col size="auto">
-            <ion-button type="submit" id="submit" (click)="onLoginSubmit()">Se connecter</ion-button>
+            <ion-button type="submit" id="submit" (click)="onLoginSubmit()">
+                {{ 'login-component-submit-button' | i18n:'Se connecter' | async}}
+            </ion-button>
         </ion-col>
     </ion-row>
     
 </form>
-<ion-text color="danger" class="ion-margin">{{loginMessage$ | async}}</ion-text>
+<ion-text color="danger" class="ion-margin">
+    {{ loginMessage$ | async }}
+</ion-text>
