@@ -1,0 +1,20 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-title>Sélectionner un pays</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="onSelect(null)">Fermer</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+    <ion-searchbar (ionInput)="filterCountries($event)" placeholder="Rechercher un pays"></ion-searchbar>
+  </ion-header>
+  
+  <ion-content>
+    <ion-list>
+      @for(country of filteredCountries; track $index){
+        @if(country.id !== 0){
+            <ion-item (click)="onSelect(country)">{{country.label}}</ion-item>
+        }
+      }
+    </ion-list>
+  </ion-content>
+  

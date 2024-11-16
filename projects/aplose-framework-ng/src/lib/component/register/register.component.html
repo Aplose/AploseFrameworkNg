@@ -1,135 +1,134 @@
-
 @if(validationMode){
-    @if(wrongActivationCode){
-        <ion-text color="danger" class="ion-margin-bottom">
-          Ce code d'activation est incorrecte.
-        </ion-text>
-      }
-      @else if (expiredActivationCode) {
-        <ion-text color="warning">
-          Ce code d'activation est expiré...
-          Restez serein, nous venons de vous envoyez un nouveau code d'activation, merci de le renseigner.
-        </ion-text>
-      }
-      
-      <form [formGroup]="accountActivationForm" (submit)="onAccountValidationSubmit($event)">
-        <ion-grid>
-          <ion-row>
+@if(wrongActivationCode){
+<ion-text color="danger" class="ion-margin-bottom">
+    Ce code d'activation est incorrecte.
+</ion-text>
+}
+@else if (expiredActivationCode) {
+<ion-text color="warning">
+    Ce code d'activation est expiré...
+    Restez serein, nous venons de vous envoyez un nouveau code d'activation, merci de le renseigner.
+</ion-text>
+}
+
+<form [formGroup]="accountActivationForm" (submit)="onAccountValidationSubmit($event)">
+    <ion-grid>
+        <ion-row>
             <ion-col>
-              <ion-input fill="outline" label="Code de validation" labelPlacement="floating" formControlName="activationCode"></ion-input>
+                <ion-input fill="outline" label="Code de validation" labelPlacement="floating"
+                    formControlName="activationCode"></ion-input>
             </ion-col>
-          </ion-row>
-          <ion-row class="ion-justify-content-end">
+        </ion-row>
+        <ion-row class="ion-justify-content-end">
             <ion-col size="auto">
                 <ion-button type="button" (click)="validationMode = false;">Annuler</ion-button>
-              </ion-col>
-              <ion-col size="auto">
-                  <ion-button type="submit">Valider</ion-button>
-                </ion-col>
-            </ion-row>
-        </ion-grid>
-      </form>
+            </ion-col>
+            <ion-col size="auto">
+                <ion-button type="submit">Valider</ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</form>
 }
 
 
 
 @else {
-    <form required id="registerForm" [formGroup]="registerForm" (submit)="onRegisterFormSubmit($event)">
-        <ion-list class="ion-margin-bottom">
+@if(registerForm){
+
+<form required id="registerForm" [formGroup]="registerForm" (submit)="onRegisterFormSubmit($event)">
+    <ion-list class="ion-margin-bottom">
 
         <ion-item>
             <ion-select label="Civilité" labelPlacement="floating" placeholder="Selectionner votre civilité"
-            id="personCivility" formControlName="civilityRowid">
-            @for(civility of civilities$ | async; track $index){
-            <ion-select-option [value]="civility.rowid">{{civility.label}}</ion-select-option>
-            }
+                id="personCivility" formControlName="civilityRowid">
+                @for(civility of civilities$ | async; track $index){
+                <ion-select-option [value]="civility.rowid">{{civility.label}}</ion-select-option>
+                }
             </ion-select>
         </ion-item>
 
-        <ion-item>
-            <ion-select name="personAddressCountryCode" label="Pays" labelPlacement="floating"
-            placeholder="Sélectionner votre pays" id="addressCountryCode" formControlName="addressCountryCode">
-            @for(country of countries$ | async; track country.id){
-            @if(country.id === 0 ){
-            <ion-select-option disabled selected hidden>Sélectionner votre pays</ion-select-option>
-            }
-            @else{
-            <ion-select-option [value]="country.code">{{country.code}} - {{country.label}}</ion-select-option>
-            } }
-            </ion-select>
+        <ion-item (click)="openCountrySelector($event)">
+            <ion-input style="display: none;" placeholder="Choisissez un pays" formControlName="addressCountryCode">
+
+            </ion-input>
+            <ion-label>{{selectedCountry !== '' ? selectedCountry : 'Choisissez un pays'}}</ion-label>
+            <ion-icon name="caret-down-sharp" color="medium" size="small"></ion-icon>
         </ion-item>
 
         <ion-item>
             <ion-input type="text" autocomplete="on" name="family-name" label="Nom" labelPlacement="floating"
-            helperText="" id="personLastName" formControlName="lastName"></ion-input>
+                helperText="" id="personLastName" formControlName="lastName"></ion-input>
         </ion-item>
 
         <ion-item>
             <ion-input type="text" autocomplete="on" name="given-name" label="Prénom" labelPlacement="floating"
-            id="personFirstName" formControlName="firstName"></ion-input>
+                id="personFirstName" formControlName="firstName"></ion-input>
         </ion-item>
 
 
         <ion-item>
             <ion-input type="email" autocomplete="on" name="email" label="Email" labelPlacement="floating" helperText=""
-            id="email" formControlName="userAccountUsername"></ion-input>
+                id="email" formControlName="userAccountUsername"></ion-input>
         </ion-item>
-        
+
         @if(usernameAllreadyExistError$ | async){
-            <ion-item>
-                <ion-text color="danger">Ce compte existe déjà.</ion-text>
-            </ion-item>
-        }
-        
         <ion-item>
-            <ion-input type="phone" autocomplete="on" name="tel" label="Téléphone" labelPlacement="floating" id="phone"
-            formControlName="phone"></ion-input>
+            <ion-text color="danger">Ce compte existe déjà.</ion-text>
         </ion-item>
-        
-        @if( ! forceIsProfessional){
-            <ion-item>
-                <ion-checkbox id="isProfessionalCheckbox" labelPlacement="end" formControlName="isProfessional" >
-                <ion-label>
-                    Je suis un professionnel et demande un compte professionnel
-                </ion-label>
-                </ion-checkbox>
-            </ion-item>
         }
 
         <ion-item>
-            <ion-input label="Raison sociale" labelPlacement="floating" 
-            id="userAccountCompanyName" formControlName="userAccountCompanyName"></ion-input>
+            <ion-input type="phone" autocomplete="on" name="tel" label="Téléphone" labelPlacement="floating" id="phone"
+                formControlName="phone"></ion-input>
+        </ion-item>
+
+        @if( ! forceIsProfessional){
+        <ion-item>
+            <ion-checkbox id="isProfessionalCheckbox" labelPlacement="end" formControlName="isProfessional">
+                <ion-label>
+                    Je suis un professionnel et demande un compte professionnel
+                </ion-label>
+            </ion-checkbox>
+        </ion-item>
+        }
+
+        <ion-item>
+            <ion-input label="Raison sociale" labelPlacement="floating" id="userAccountCompanyName"
+                formControlName="userAccountCompanyName"></ion-input>
         </ion-item>
 
         <ion-item>
             <ion-input type="password" label="Mot de passe" labelPlacement="floating" id="password"
-            formControlName="userAccountPassword">
+                formControlName="userAccountPassword">
             </ion-input>
         </ion-item>
 
         <ion-item>
             <ion-input type="password" label="Vérification mot de passe" labelPlacement="floating" id=" passwordRepeat"
-            formControlName="passwordRepeat">
+                formControlName="passwordRepeat">
             </ion-input>
         </ion-item>
 
-        </ion-list>
+    </ion-list>
 
 
-        <ion-row class="ion-justify-content-end">
-            <ion-col size="auto">
-                <ion-button type="submit" (click)="validationMode = true;" class="ion-margin-top">
-                    Entrer mon code d'activation
-                </ion-button>
-                </ion-col>
-            <ion-col size="auto">
+    <ion-row class="ion-justify-content-end">
+        <ion-col size="auto">
+            <ion-button type="submit" (click)="validationMode = true;" class="ion-margin-top">
+                Entrer mon code d'activation
+            </ion-button>
+        </ion-col>
+        <ion-col size="auto">
             <ion-button type="submit" [disabled]="registerForm.invalid" class="ion-margin-top">
                 S'enregistrer
             </ion-button>
-            </ion-col>
-        </ion-row>
+        </ion-col>
+    </ion-row>
 
 
-    </form>
+</form>
+
+
 }
-
+}
