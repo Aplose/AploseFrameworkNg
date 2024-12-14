@@ -1,44 +1,36 @@
 import { Injectable } from '@angular/core';
 import { Token } from '../../../model/Token';
-import { map, Observable } from 'rxjs';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { from, map, Observable } from 'rxjs';
+import { aploseDatabase } from '../../../config/indexedDB/AploseDatabase';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TokenStorageService {
-
     private readonly storename: string = 'authentication';
     private readonly keyname: string = 'token';
 
-
-    constructor(
-        private _indexedDBService: NgxIndexedDBService,
-    ){}
-
-
-    public getToken(): Observable<Token | null>{
-        this._indexedDBService.selectDb('AploseFrameworkNg')
-        return this._indexedDBService.getByKey<{key: string, value: Token} | undefined>(this.storename, this.keyname).pipe(
-            map((token: {key: string, value: Token} | undefined) => {
-                if(token == undefined){
+    public getToken(): Observable<Token | null> {
+        return from(aploseDatabase.authentication.get(this.keyname)).pipe(
+            map((item: { key: string, value: Token } | undefined) => {
+                if (!item) {
                     return null;
                 }
-                return token.value;
+                return item.value;
             })
-        )
+        );
     }
 
-    public setToken(token: Token): void{
-        this._indexedDBService.selectDb('AploseFrameworkNg')
-        this._indexedDBService.add(this.storename, {key: this.keyname, value: token}).subscribe();
+    public setToken(token: Token): void {
+        aploseDatabase.authentication.put({
+            key: this.keyname,
+            value: token
+        });
     }
 
-
-
-    public deleteToken(){
-        this._indexedDBService.selectDb('AploseFrameworkNg')
-        this._indexedDBService.deleteByKey(this.storename, this.keyname).subscribe(()=>{console.log('token, role, logedUser deleted !')})
-
+    public deleteToken(): void {
+        aploseDatabase.authentication.delete(this.keyname).then(() => {
+            console.log('token, role, logedUser deleted !');
+        });
     }
 }

@@ -2,4 +2,4 @@
 ng build aplose-framework-ng
 cd ./dist/aplose-framework-ng
 npm pack
-npm publish
+npm publish --access public

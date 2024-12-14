@@ -87,5 +87,5 @@ export { ProposalProductTypeEnum } from './lib/enum/ProposalProductTypeEnum';
 
 
 // CONFIG
-export { aploseDBConfig } from './lib/config/indexedDB/indexedDBConfig';
+export { aploseDatabase } from './lib/config/indexedDB/AploseDatabase';
 

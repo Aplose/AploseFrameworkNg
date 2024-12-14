@@ -2,60 +2,48 @@ import { Injectable, OnInit } from '@angular/core';
 import { UserAccount } from '../../../model/UserAccount';
 import { RoleEnum } from '../../../enum/RoleEnum';
 import { from, map, Observable } from 'rxjs';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { aploseDatabase } from '../../../config/indexedDB/AploseDatabase';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RoleService implements OnInit{
-
-
+export class RoleService implements OnInit {
     private readonly storename: string = 'authentication';
     private readonly keyname: string = 'role';
 
+    ngOnInit(): void {}
 
-
-    constructor(private _indexedDBService: NgxIndexedDBService){}
-
-
-    ngOnInit(): void {
-
+    public getRoles$(): Observable<string[]> {
+        return from(aploseDatabase.authentication.get(this.keyname)).pipe(
+            map((role: { key: string, value: string } | undefined) => 
+                role?.value ? role.value.split(';') : []
+            )
+        );
     }
 
+    public setRoles(userAccount: UserAccount): void {
+        const rolesSTR = userAccount.authorities
+            .map(role => role.authority)
+            .join(';');
 
-    public getRoles$(): Observable<string[]>{
-        this._indexedDBService.selectDb('AploseFrameworkNg')
-        return from(this._indexedDBService.getByKey<{key: string, value: string}>(this.storename, this.keyname).pipe(
-            map((rolesSTR: {key: string, value: string}) => rolesSTR.value == null ? [] : rolesSTR.value.split(';')))
-        )
+        aploseDatabase.authentication.put({
+            key: this.keyname,
+            value: rolesSTR
+        });
     }
 
-
-    public setRoles(userAccount: UserAccount): void{
-        this._indexedDBService.selectDb('AploseFrameworkNg')
-        let rolesSTR: string = '';
-        userAccount.authorities.map(role => {
-            rolesSTR += role.authority + ';';
-        })
-        this._indexedDBService.add(this.storename, {key: this.keyname, value: rolesSTR}).subscribe()
+    public deleteRoles(): void {
+        aploseDatabase.authentication.delete(this.keyname);
     }
 
-
-    public deleteRoles(): void{
-        this._indexedDBService.selectDb('AploseFrameworkNg')
-        this._indexedDBService.deleteByKey(this.storename, this.keyname).subscribe()
-    }
-
-
-    public isInRole$ = (espectedRoles: string[]): Observable<boolean> => {
+    public isInRole$ = (expectedRoles: string[]): Observable<boolean> => {
         return this.getRoles$().pipe(
             map((roles: string[]) => {
-                return (roles.length > 0 && roles.length > 0) ?
-                    roles.reduce((acc, role) => espectedRoles.includes(role) ? true : acc, false)
-                    :
-                    false;
+                return (roles.length > 0 && expectedRoles.length > 0) ?
+                    roles.reduce((acc, role) => expectedRoles.includes(role) ? true : acc, false)
+                    : false;
             })
-        )
+        );
     }
 
 

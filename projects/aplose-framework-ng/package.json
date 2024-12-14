@@ -1,11 +1,11 @@
 {
   "name": "aplose-framework-ng",
-  "version": "0.0.15",
+  "version": "0.0.17",
   "peerDependencies": {
     "@angular/common": "^18.1.4",
     "@angular/core": "^18.1.4",
     "@stripe/stripe-js": "^4.4.0",
-    "ngx-indexed-db": "^19.0.0",
+    "dexie": "^4.0.10",
     "ngx-stripe": "^18.1.0",
     "@capacitor/android": "^6.0.0",
     "@capacitor/app": "^6.0.0",
