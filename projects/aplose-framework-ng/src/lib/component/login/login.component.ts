@@ -8,7 +8,7 @@ import { AuthResponseDTO } from '../../dto/AuthResponseDTO';
 import { GoogleButtonOptions } from '../../model/google/GoogleButtonOptions';
 import { UserAccount } from '../../model/UserAccount';
 import { IonText } from "@ionic/angular/standalone";
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, LoadingController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { I18nPipe } from '../../pipe/i18n.pipe';
 
@@ -36,7 +36,8 @@ export class LoginComponent {
     private _authenticationService: AuthenticationService,
     private _route: ActivatedRoute,
     private _router: Router,
-    private _googleAuthService: GoogleAuthService
+    private _googleAuthService: GoogleAuthService,
+    private _loadingCtrl: LoadingController
   ) { }
 
   ngOnInit() {
@@ -50,10 +51,16 @@ export class LoginComponent {
   }
 
 
-  public onLoginSubmit() {
+  public async onLoginSubmit() {
     if (this.loginForm.valid) {
+      const loading = await this._loadingCtrl.create({
+        message: 'Connexion en cours...',
+        duration: 5000
+      });
+      loading.present();
       this._authenticationService.login$(this.loginForm.value).subscribe({
         next: (response: AuthResponseDTO | null) => {
+          loading.dismiss();
           if (response) {
             this._router.navigate([this._route.snapshot.queryParams['returnUrl'] ?? '/'])
           } else {
@@ -65,7 +72,10 @@ export class LoginComponent {
           }
 
         },
-        error: (e: Error) => { console.log('Error:', e.message); }
+        error: (e: Error) => { 
+          loading.dismiss();
+          console.log('Error:', e.message); 
+        }
       });
     }
   }

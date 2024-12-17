@@ -7,7 +7,6 @@ import { aploseDatabase } from '../../../config/indexedDB/AploseDatabase';
   providedIn: 'root'
 })
 export class TokenStorageService {
-    private readonly storename: string = 'authentication';
     private readonly keyname: string = 'token';
 
     public getToken(): Observable<Token | null> {

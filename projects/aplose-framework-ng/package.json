@@ -1,6 +1,6 @@
 {
   "name": "aplose-framework-ng",
-  "version": "0.0.17",
+  "version": "0.0.24",
   "peerDependencies": {
     "@angular/common": "^18.1.4",
     "@angular/core": "^18.1.4",
@@ -14,7 +14,8 @@
     "@capacitor/keyboard": "^6.0.0",
     "@capacitor/status-bar": "^6.0.0",
     "@ionic/angular": "^8.3.0",
-    "@angular/localize": "^18.1.4"
+    "@angular/localize": "^18.1.4",
+    "libphonenumber-js": "^1.11.16"
   },
   "dependencies": {
     "tslib": "^2.3.0"

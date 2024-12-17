@@ -61,4 +61,27 @@ export class ProposalService {
    */
   public validateProposal$ = (): Observable<any> => this._httpClient.post(`${this._configService.backendUrl}/dolibarr/proposal/validate`, null, {responseType: 'text' as 'json'});
 
+  /**
+   * Mettre à jour le devis
+   * @param proposal Le devis à mettre à jour
+   * @returns Observable<Proposal> Le devis mis à jour
+   */
+  public updateProposal$ = (proposal: Proposal): Observable<Proposal> => {
+    return this._httpClient.put<Proposal>(
+      `${this._configService.backendUrl}/dolibarr/proposal/${proposal.id}`,
+      proposal
+    ).pipe(
+      map((updatedProposal: Proposal) => {
+        if (!updatedProposal) {
+          throw new Error('Erreur lors de la mise à jour du devis');
+        }
+        return updatedProposal;
+      }),
+      catchError((error) => {
+        console.error('Erreur lors de la mise à jour du devis:', error);
+        return throwError(() => new Error('Une erreur est survenue lors de la mise à jour du devis'));
+      })
+    );
+  };
+
 }

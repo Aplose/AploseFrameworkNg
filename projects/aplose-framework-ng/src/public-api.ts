@@ -27,7 +27,6 @@ export { GoogleAuthService } from './lib/service/authentication/google/google-au
 export { ProposalService } from './lib/service/dolibarr/proposal.service';
 export { I18nService } from './lib/service/i18n.service';
 export { ProductService } from './lib/service/dolibarr/product.service';
-export { LoadingService } from './lib/service/loading.service';
 
 
 // COMPONENT

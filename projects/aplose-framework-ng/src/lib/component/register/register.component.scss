@@ -1,0 +1,23 @@
+.phone-prefix {
+  color: var(--ion-color-medium);
+  padding-right: 8px;
+  border-right: 1px solid var(--ion-color-medium);
+  margin-right: 8px;
+}
+
+ion-input[type="tel"] {
+  --padding-start: 0;
+  
+  input {
+    margin-left: 8px;
+  }
+}
+
+ion-text[color="danger"] {
+  font-size: 0.8em;
+  margin-top: 4px;
+}
+
+ion-input.ion-invalid {
+  --border-color: var(--ion-color-danger);
+}

@@ -5,6 +5,7 @@ import { ProposalLine } from "./ProposalLine";
 
 export interface Proposal extends DolibarrObject{
 
+    ref_client: string,
     socid: number,  
     datec: number,
     datep: number,

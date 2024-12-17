@@ -1,4 +1,3 @@
-
 @if(!(proposal$ | async)?.lines || (proposal$ | async)?.lines?.length! < 1){
   <ion-text>
     {{'proposal-validation-page.text.empty-pending-proposal'|i18n:'Votre devis est vide'|async}}
@@ -43,7 +42,33 @@
       </ion-row>
     }
   </ion-grid>
-  <ion-button (click)="validateProposal()">{{'propal-validation-page.button.validate-pending-proposal' | i18n:'Valider le devis' | async}}</ion-button>
+  
+  <ion-item class="ion-margin-bottom">
+    <ion-input 
+      [label]="'proposal-validation-page.proposal-name' | i18n:'Nom de votre devis' | async"
+      labelPlacement="floating"
+      [formControl]="proposalNameControl"
+      type="text"
+      required
+    ></ion-input>
+  </ion-item>
+  @if(proposalNameControl.invalid && proposalNameControl.touched) {
+    <ion-text color="danger" class="ion-padding-start">
+      @if(proposalNameControl.errors?.['required']) {
+        {{ 'proposal-validation-page.errors.name-required' | i18n:'Le nom du devis est requis' | async }}
+      }
+      @if(proposalNameControl.errors?.['minlength']) {
+        {{ 'proposal-validation-page.errors.name-min-length' | i18n:'Le nom du devis doit contenir au moins 3 caractères' | async }}
+      }
+    </ion-text>
+  }
+
+  <ion-button 
+    (click)="validateProposal()" 
+    [disabled]="proposalNameControl.invalid"
+  >
+    {{'propal-validation-page.button.validate-pending-proposal' | i18n:'Valider le devis' | async}}
+  </ion-button>
 }
 
 

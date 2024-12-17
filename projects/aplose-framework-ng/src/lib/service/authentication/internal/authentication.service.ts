@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { catchError, map, Observable, of } from 'rxjs';
+import { catchError, map, Observable, of, BehaviorSubject, firstValueFrom } from 'rxjs';
 import { ConfigService } from '../../config.service';
 import { RoleService } from './role.service';
 import { TokenStorageService } from './token-storage.service';
@@ -15,13 +15,22 @@ import { Token } from '../../../model/Token';
 })
 export class AuthenticationService {
   private readonly keyName: string = 'userAccount';
+  private isLoggedSubject = new BehaviorSubject<boolean>(false);
+  public isLogged$ = this.isLoggedSubject.asObservable();
 
   constructor(
     private _httpClient: HttpClient,
     private _configService: ConfigService,
     private _roleService: RoleService,
     private _tokenStorageService: TokenStorageService
-  ) {}
+  ) {
+    this.checkLoginState();
+  }
+
+  private async checkLoginState() {
+    const token = await firstValueFrom(this._tokenStorageService.getToken());
+    this.isLoggedSubject.next(!!token?.expireAt && token.expireAt > Date.now());
+  }
 
   public async saveLogedUserAccount(userAccount: UserAccount): Promise<void> {
     await aploseDatabase.authentication.put({
@@ -41,7 +50,7 @@ export class AuthenticationService {
           this._tokenStorageService.setToken(response.body.token);
           this._roleService.setRoles(response.body.userAccount);
           this.saveLogedUserAccount(response.body.userAccount);
-          this.isLoged$();
+          this.isLoggedSubject.next(true);
           return response.body;
         }
         return null;
@@ -59,13 +68,7 @@ export class AuthenticationService {
     this._tokenStorageService.deleteToken();
     this.deleteLogedUserAccount();
     this._roleService.deleteRoles();
-    this.isLoged$();
-  }
-
-  public isLoged$(): Observable<boolean> {
-    return this._tokenStorageService.getToken().pipe(
-      map((token: Token | null) => token && token.expireAt > Date.now() ? true : false)
-    );
+    this.isLoggedSubject.next(false);
   }
 
   private deleteLogedUserAccount(): void {

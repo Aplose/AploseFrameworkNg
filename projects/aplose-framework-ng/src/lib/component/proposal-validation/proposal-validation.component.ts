@@ -8,16 +8,18 @@ import { ProductService } from '../../service/dolibarr/product.service';
 import { IonicModule, IonInput } from '@ionic/angular';
 import { I18nPipe } from '../../pipe/i18n.pipe';
 import { CommonModule } from '@angular/common';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'lib-proposal-validation',
   standalone: true,
-  imports: [CommonModule, IonicModule, I18nPipe],
+  imports: [CommonModule, IonicModule, I18nPipe, ReactiveFormsModule],
   templateUrl: './proposal-validation.component.html',
   styleUrl: './proposal-validation.component.scss'
 })
 export class ProposalValidationComponent {
   private proposalSubject = new BehaviorSubject<Proposal | null>(null);
+  public proposalNameControl = new FormControl('', [Validators.required, Validators.minLength(3)]);
 
   public proposal$ = this.proposalSubject.asObservable();
   public productImagesSrc: Record<string, Observable<Product>> = {};
@@ -77,12 +79,33 @@ export class ProposalValidationComponent {
 
 
   public validateProposal(): void {
-    this._proposalService.validateProposal$().subscribe({
-      next: () => {
-        console.log('fonctionnalité à finir (validation devis)')
-        console.log('devis validé');
-        this.ngOnInit();
-      }
-    })
+    if (this.proposalNameControl.invalid) {
+      return;
+    }
+    
+    const proposal = this.proposalSubject.getValue();
+    if (proposal) {
+      proposal.ref_client = this.proposalNameControl.value || '';
+      
+      // D'abord mettre à jour le devis
+      this.updateProposal(proposal).subscribe({
+        next: (updatedProposal) => {
+          // Ensuite valider le devis mis à jour
+          this._proposalService.validateProposal$().subscribe({
+            next: () => {
+              console.log('Devis validé');
+              this.ngOnInit();
+            }
+          });
+        },
+        error: (error) => {
+          console.error('Erreur lors de la mise à jour du devis:', error);
+        }
+      });
+    }
+  }
+
+  private updateProposal(proposal: Proposal): Observable<Proposal> {
+    return this._proposalService.updateProposal$(proposal);
   }
 }

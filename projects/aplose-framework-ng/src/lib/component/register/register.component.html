@@ -37,7 +37,7 @@
     <ion-list class="ion-margin-bottom">
 
         <ion-item>
-            <ion-select [label]="'register-component-civility' | i18n:'Civilité' | async" labelPlacement="floating" [placeholder]="'register-component-select-civility' | i18n:'Selectionner votre civilité' | async"
+            <ion-select [label]="'register-component-civility' | i18n:'Civilité *' | async" labelPlacement="floating" [placeholder]="'register-component-select-civility' | i18n:'Selectionner votre civilité' | async"
             id="personCivility" formControlName="civilityRowid">
             @for(civility of civilities$ | async; track $index){
             <ion-select-option [value]="civility.rowid">{{civility.label}}</ion-select-option>
@@ -46,22 +46,22 @@
         </ion-item>
 
         <ion-item>
-            <ion-input type="text" autocomplete="on" name="given-name" [label]="'register-component-firstname' | i18n:'Prénom' | async" labelPlacement="floating"
+            <ion-input type="text" autocomplete="on" name="given-name" [label]="'register-component-firstname' | i18n:'Prénom *' | async" labelPlacement="floating"
             id="personFirstName" formControlName="firstName"></ion-input>
         </ion-item>
         <ion-item>
-            <ion-input type="text" autocomplete="on" name="family-name" [label]="'register-component-lastname' | i18n:'Nom' | async" labelPlacement="floating"
+            <ion-input type="text" autocomplete="on" name="family-name" [label]="'register-component-lastname' | i18n:'Nom *' | async" labelPlacement="floating"
             helperText="" id="personLastName" formControlName="lastName"></ion-input>
         </ion-item>
         <ion-item (click)="openCountrySelector($event)">
-            <ion-input style="display: none;" placeholder="Choisissez un pays" formControlName="addressCountryCode">
+            <ion-input style="display: none;" placeholder="Choisissez un pays *" formControlName="addressCountryCode">
 
             </ion-input>
-            <ion-label>{{selectedCountry !== '' ? selectedCountry : 'Choisissez un pays'}}</ion-label>
+            <ion-label>{{selectedCountry !== '' ? selectedCountry : 'Choisissez un pays *'}}</ion-label>
             <ion-icon name="caret-down-sharp" color="medium" size="small"></ion-icon>
         </ion-item>
         <ion-item>
-            <ion-input type="email" autocomplete="on" name="email" [label]="'register-component-email' | i18n:'Email' | async" labelPlacement="floating" helperText=""
+            <ion-input type="email" autocomplete="on" name="email" [label]="'register-component-email' | i18n:'Email *' | async" labelPlacement="floating" helperText=""
             id="email" formControlName="userAccountUsername"></ion-input>
         </ion-item>
 
@@ -72,9 +72,25 @@
         }
 
         <ion-item>
-            <ion-input type="phone" autocomplete="on" name="tel" [label]="'register-component-phone' | i18n:'Téléphone' | async" labelPlacement="floating" id="phone"
-            formControlName="phone"></ion-input>
+            <ion-input type="tel" 
+                       [label]="'register-component-phone' | i18n:'Téléphone *' | async" 
+                       labelPlacement="floating" 
+                       formControlName="phone">
+                <div slot="start" class="phone-prefix">
+                    {{selectedPhonePrefix}}
+                </div>
+                <input type="tel" 
+                       [value]="phoneNumberWithoutPrefix" 
+                       (input)="onPhoneNumberChange($event)" />
+            </ion-input>
         </ion-item>
+        @if(phoneError){
+            <ion-item lines="none">
+                <ion-text color="danger" class="ion-padding-start">
+                    {{phoneError}}
+                </ion-text>
+            </ion-item>
+        }
 
         @if( ! forceIsProfessional){
         <ion-item>
@@ -88,19 +104,19 @@
 
         @if(isProfessional){
         <ion-item>
-            <ion-input label="{{ 'register-component-company-name' | i18n:'Raison sociale' | async }}" labelPlacement="floating" 
+            <ion-input label="{{ 'register-component-company-name' | i18n:'Raison sociale *' | async }}" labelPlacement="floating" 
             id="userAccountCompanyName" formControlName="userAccountCompanyName"></ion-input>
         </ion-item>
         }
 
         <ion-item>
-            <ion-input type="password" [label]="'register-component-password' | i18n:'Mot de passe' | async" labelPlacement="floating" id="password"
+            <ion-input type="password" [label]="'register-component-password' | i18n:'Mot de passe *' | async" labelPlacement="floating" id="password"
             formControlName="userAccountPassword">
             </ion-input>
         </ion-item>
 
         <ion-item>
-            <ion-input type="password" [label]="'register-component-password-verification' | i18n:'Vérification mot de passe' | async" labelPlacement="floating" id=" passwordRepeat"
+            <ion-input type="password" [label]="'register-component-password-verification' | i18n:'Vérification mot de passe *' | async" labelPlacement="floating" id=" passwordRepeat"
             formControlName="passwordRepeat">
             </ion-input>
         </ion-item>
@@ -110,7 +126,7 @@
 
         <ion-row class="ion-justify-content-end">
             <ion-col size="auto">
-                <ion-button type="submit" (click)="validationMode = true;" class="ion-margin-top">
+                <ion-button type="submit" [disabled]="!activateEnterActivationCode" (click)="validationMode = true;" class="ion-margin-top">
                     {{ 'register-component-enter-activation-code' | i18n:'Entrer mon code d\'activation' | async }}
                 </ion-button>
                 </ion-col>

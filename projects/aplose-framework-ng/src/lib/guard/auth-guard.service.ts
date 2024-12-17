@@ -16,7 +16,7 @@ export class AuthGuardService {
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): MaybeAsync<GuardResult>{
 
-    return this._authService.isLoged$().pipe(
+    return this._authService.isLogged$.pipe(
       tap((isLoged) => {
         console.log('IS LOGED:', isLoged);
         if (!isLoged) {
