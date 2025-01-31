@@ -50,8 +50,6 @@ export class RegisterComponent implements OnInit {
 
   isProfessional: boolean = false;
   
-  public selectedPhonePrefix: string = '+33';
-  public phoneNumberWithoutPrefix: string = '';
   private countryPhonePrefixes: { [key: string]: string } = {
     'FR': '+33',
     'BE': '+32',
@@ -122,7 +120,8 @@ export class RegisterComponent implements OnInit {
       isProfessional: new FormControl(this.forceIsProfessional),
       firstName: new FormControl('', [Validators.required, Validators.minLength(2)]),
       lastName: new FormControl('', [Validators.required, Validators.minLength(2)]),
-      phone: new FormControl('', [
+      phonePrefix: new FormControl('+33'),
+      phoneNumber: new FormControl('', [
         Validators.required,
         this.phoneNumberValidator()
       ]),
@@ -146,7 +145,9 @@ export class RegisterComponent implements OnInit {
       activationCode: new FormControl(null, Validators.required),
     })
 
-    this.selectedPhonePrefix = this.countryPhonePrefixes['FR'];
+    this.registerForm.patchValue({
+      phonePrefix: this.countryPhonePrefixes['FR']
+    });
   }
 
 
@@ -167,12 +168,11 @@ export class RegisterComponent implements OnInit {
             }
             this.selectedCountry = country!.label;
             this.registerForm.get('addressCountryCode')?.setValue(country?.code);
-            this.selectedPhonePrefix = this.getPhonePrefix(country.code);
-            if (this.phoneNumberWithoutPrefix) {
-              const fullNumber = this.selectedPhonePrefix + this.phoneNumberWithoutPrefix.replace(/^0+/, '');
-              this.registerForm.get('phone')?.setValue(fullNumber);
-              this.validatePhoneNumber();
-            }
+            const newPrefix = this.getPhonePrefix(country.code);
+            this.registerForm.patchValue({
+              phonePrefix: newPrefix
+            });
+            this.validatePhoneNumber();
             popover.dismiss();
           },
           formControlName: 'addressCountryCode'
@@ -208,7 +208,9 @@ export class RegisterComponent implements OnInit {
                 this.usernameAllreadyExistError$ = of(false);
               },
                 10000
-              )
+              );
+              //on redirige vers la page de login
+              this._router.navigate(['/login']);
             }
           }
         });
@@ -282,10 +284,11 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  onPhoneNumberChange(event: Event): void {
-    this.phoneNumberWithoutPrefix = (event.target as HTMLInputElement).value;
-    const fullNumber = this.selectedPhonePrefix + this.phoneNumberWithoutPrefix.replace(/^0+/, '');
-    this.registerForm.get('phone')?.setValue(fullNumber);
+  public onPhoneNumberChange(event: Event): void {
+    const phoneNumber = (event.target as HTMLInputElement).value;
+    this.registerForm.patchValue({
+      phoneNumber: phoneNumber
+    });
     this.validatePhoneNumber();
   }
 
@@ -299,10 +302,8 @@ export class RegisterComponent implements OnInit {
     }
 
     try {
-      let normalizedNumber = phoneNumber;
-      if (!phoneNumber.startsWith('+')) {
-        normalizedNumber = this.selectedPhonePrefix + phoneNumber.replace(/^0+/, '');
-      }
+      const prefix = this.registerForm.get('phonePrefix')?.value;
+      const normalizedNumber = prefix + phoneNumber.replace(/^0+/, '');
 
       const parsedPhoneNumber = parsePhoneNumberWithError(normalizedNumber, countryCode as CountryCode);
       if (!parsedPhoneNumber?.isValid()) {

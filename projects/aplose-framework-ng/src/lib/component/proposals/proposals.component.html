@@ -1,5 +1,3 @@
-
-
 @if(!(proposals$ | async) || (proposals$ | async)?.length! < 1){
     <ion-text>
         {{'aplose-framework-ng.proposals-component.ion-text.you-not-have-proposals' | i18n:'Vous n\'avez pas de devis pour le moment' | async}}
@@ -10,28 +8,35 @@
         <ion-row class="header">
           <ion-col>
             <ion-text>
-              {{'aplose-framework-ng.proposals-component.ion-grid-header.proposal-reference' | i18n:'Référence devis' | async}}
+              {{'aplose-framework-ng.proposals-component.ion-grid-header.proposal-reference' | i18n:'Réf.' | async}}
             </ion-text>
           </ion-col>
           <ion-col>
             <ion-text>
-              {{'aplose-framework-ng.proposals-component.ion-grid-header.proposal-validation-date' | i18n:'Date de validation' | async}}
+              {{'aplose-framework-ng.proposals-component.ion-grid-header.proposal-client-reference' | i18n:'Nom' | async}}
             </ion-text>
           </ion-col>
           <ion-col>
             <ion-text>
-              {{'aplose-framework-ng.proposals-component.ion-grid-header.proposal-ht-total' | i18n:'Total HT' | async}}
+              {{'aplose-framework-ng.proposals-component.ion-grid-header.proposal-validation-date' | i18n:'Date' | async}}
             </ion-text>
           </ion-col>
           <ion-col>
             <ion-text>
-              {{'aplose-framework-ng.proposals-component.ion-grid-header.proposal-tva' | i18n:'TVA' | async}}
+              {{'aplose-framework-ng.proposals-component.ion-grid-header.proposal-ht-total' | i18n:'Tot. HT' | async}}
             </ion-text>
           </ion-col>
           <ion-col>
             <ion-text>
-              {{'aplose-framework-ng.proposals-component.ion-grid-header.proposal-ttc-total' | i18n:'Total TTC' | async}}
+              {{'aplose-framework-ng.proposals-component.ion-grid-header.proposal-tva' | i18n:'Tot.TVA' | async}}
             </ion-text>
+          </ion-col>
+          <ion-col>
+            <ion-text>
+              {{'aplose-framework-ng.proposals-component.ion-grid-header.proposal-ttc-total' | i18n:'Tot. TTC' | async}}
+            </ion-text>
+          </ion-col>
+          <ion-col size="1">
           </ion-col>
         </ion-row>
     
@@ -50,10 +55,15 @@
               <ion-text>{{proposal.total_ht}} €</ion-text>
             </ion-col>
             <ion-col>
-              <ion-text>{{proposal.tva}}</ion-text>
+              <ion-text>{{proposal.total_tva}} €</ion-text>
             </ion-col>
             <ion-col>
-              <ion-text>{{proposal.total}} €</ion-text>
+              <ion-text>{{proposal.total_ttc}} €</ion-text>
+            </ion-col>
+            <ion-col size="1" class="ion-text-center">
+              <ion-button fill="clear" size="small" (click)="downloadProposal(proposal)">
+                <ion-icon name="download-outline" slot="icon-only"></ion-icon>
+              </ion-button>
             </ion-col>
           </ion-row>
         }

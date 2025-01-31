@@ -88,13 +88,15 @@ export class ProposalValidationComponent {
       proposal.ref_client = this.proposalNameControl.value || '';
       
       // D'abord mettre à jour le devis
-      this.updateProposal(proposal).subscribe({
-        next: (updatedProposal) => {
+      this._proposalService.updateProposal$(proposal).subscribe({
+        next: () => {
           // Ensuite valider le devis mis à jour
           this._proposalService.validateProposal$().subscribe({
             next: () => {
-              console.log('Devis validé');
               this.ngOnInit();
+            },
+            error: (error) => {
+              console.error('Erreur lors de la validation du devis:', error);
             }
           });
         },
@@ -103,9 +105,5 @@ export class ProposalValidationComponent {
         }
       });
     }
-  }
-
-  private updateProposal(proposal: Proposal): Observable<Proposal> {
-    return this._proposalService.updateProposal$(proposal);
   }
 }

@@ -75,12 +75,12 @@
             <ion-input type="tel" 
                        [label]="'register-component-phone' | i18n:'Téléphone *' | async" 
                        labelPlacement="floating" 
-                       formControlName="phone">
+                       formControlName="phoneNumber">
                 <div slot="start" class="phone-prefix">
-                    {{selectedPhonePrefix}}
+                    {{registerForm.get('phonePrefix')?.value}}
                 </div>
                 <input type="tel" 
-                       [value]="phoneNumberWithoutPrefix" 
+                       [value]="registerForm.get('phoneNumber')?.value" 
                        (input)="onPhoneNumberChange($event)" />
             </ion-input>
         </ion-item>

@@ -4,12 +4,56 @@
   </ion-text>
 }
 @else {
-  <ion-grid >
+
+  <!-- on va mettre une table au lieu de grid -->
+  <table>
+    <thead>
+      <tr>
+        <th>{{'proposal-validation-page.pending-proposal-grid-header.produit-image' | i18n: 'Image' | async}}</th>
+        <th>{{'proposal-validation-page.pending-proposal-grid-header.product-name' | i18n: 'Nom' | async}}</th>
+        <th>{{'proposal-validation-page.pending-proposal-grid-header.quantity' | i18n: 'Quantité' | async}}</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (line of (proposal$ | async)?.lines; track $index) {
+        <tr>
+          <td><img [src]="(productImagesSrc[line.fk_product]|async)?.imageSrc" height="100px"/></td>
+          <td>{{line.product_label}}</td>
+          <td>
+            <ion-item>
+              <ion-input 
+                #quantityInput 
+                type="number" 
+                value="{{initialLinesQuantities[line.rowid].initialQty}}" 
+                (ionChange)="setQuantity(line, quantityInput.value!, quantityInput)"
+              />
+            </ion-item>
+          </td>
+          <td>
+            @if(initialLinesQuantities[line.rowid].initialQty.toString() !== initialLinesQuantities[line.rowid].newQty.toString()){
+              <ion-button (click)="updateQuantity(line)" size="small">
+                <ion-icon name="save" slot="icon-only"></ion-icon>
+              </ion-button>
+              <ion-button (click)="setQuantityToInitial(line, quantityInput)" size="small">
+                <ion-icon name="close-circle" slot="icon-only"></ion-icon>
+              </ion-button>
+            }
+            <ion-button (click)="deleteProposalLine(line.rowid)" size="small" color="danger">
+              <ion-icon name="trash" slot="icon-only"></ion-icon>
+            </ion-button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <!--ion-grid >
     <ion-row class="header">
-      <ion-col><ion-text>{{'proposal-validation-page.pending-proposal-grid-header.produit-image' | i18n: 'Image produit' | async}}</ion-text></ion-col>
-      <ion-col><ion-text>{{'proposal-validation-page.pending-proposal-grid-header.product-name' | i18n: 'Nom produit' | async}}</ion-text></ion-col>
+      <ion-col><ion-text>{{'proposal-validation-page.pending-proposal-grid-header.produit-image' | i18n: 'Image' | async}}</ion-text></ion-col>
+      <ion-col><ion-text>{{'proposal-validation-page.pending-proposal-grid-header.product-name' | i18n: 'Nom' | async}}</ion-text></ion-col>
       <ion-col><ion-text>{{'proposal-validation-page.pending-proposal-grid-header.quantity' | i18n: 'Quantité' | async}}</ion-text></ion-col>
-      <ion-col><ion-text>{{'proposal-validation-page.pending-proposal-grid-header.actions' | i18n: 'Actions' | async}}</ion-text></ion-col>
+      <ion-col></ion-col>
     </ion-row>
 
     @for (line of (proposal$ | async)?.lines; track $index) {
@@ -18,26 +62,26 @@
         <ion-col>{{line.product_label}}</ion-col>
         <ion-col>
           <ion-item>
-
             <ion-input 
               #quantityInput 
               type="number" 
               value="{{initialLinesQuantities[line.rowid].initialQty}}" 
               (ionChange)="setQuantity(line, quantityInput.value!, quantityInput)"
             />
-            <ion-icon name="pencil"  slot="end"></ion-icon>
           </ion-item>
         </ion-col>
         <ion-col>
           @if(initialLinesQuantities[line.rowid].initialQty.toString() !== initialLinesQuantities[line.rowid].newQty.toString()){
             <ion-button (click)="updateQuantity(line)" size="small">
-              {{'proposal-validation-page.button.update-line-quantity' | i18n:'Enregistrer' | async}}
+              <ion-icon name="save" slot="icon-only"></ion-icon>
             </ion-button>
             <ion-button (click)="setQuantityToInitial(line, quantityInput)" size="small">
-              {{'proposal-validation-page.button.cancel-update-line-quantity' | i18n:'Annuler' | async}}
+              <ion-icon name="close-circle" slot="icon-only"></ion-icon>
             </ion-button>
           }
-          <ion-button (click)="deleteProposalLine(line.rowid)" size="small" color="danger">{{'proposal-validation-page.button.delete-proposalLine' | i18n:'Supprimer' | async}}</ion-button>
+          <ion-button (click)="deleteProposalLine(line.rowid)" size="small" color="danger">
+            <ion-icon name="trash" slot="icon-only"></ion-icon>
+          </ion-button>
         </ion-col>
       </ion-row>
     }
@@ -60,8 +104,8 @@
       @if(proposalNameControl.errors?.['minlength']) {
         {{ 'proposal-validation-page.errors.name-min-length' | i18n:'Le nom du devis doit contenir au moins 3 caractères' | async }}
       }
-    </ion-text>
-  }
+    </ion-text-->
+  
 
   <ion-button 
     (click)="validateProposal()" 

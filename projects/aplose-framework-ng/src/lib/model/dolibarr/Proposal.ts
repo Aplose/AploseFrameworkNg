@@ -4,7 +4,7 @@ import { ProposalLine } from "./ProposalLine";
 
 
 export interface Proposal extends DolibarrObject{
-
+    ref: string,
     ref_client: string,
     socid: number,  
     datec: number,
@@ -12,8 +12,8 @@ export interface Proposal extends DolibarrObject{
     date_validation: number,
     date_cloture: number,
     total_ht: number,
-    total: number,
-    tva: number,
+    total_ttc: number,
+    total_tva: number,
     note_private: string,
     note_public: string, 
     lines: ProposalLine[]
