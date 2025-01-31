@@ -48,6 +48,16 @@
     </tbody>
   </table>
 
+  <ion-item class="ion-margin-bottom">
+    <ion-input 
+      [label]="'proposal-validation-page.proposal-name' | i18n:'Nom de votre devis' | async"
+      labelPlacement="floating"
+      [formControl]="proposalNameControl"
+      type="text"
+      required
+    ></ion-input>
+  </ion-item>
+
   <!--ion-grid >
     <ion-row class="header">
       <ion-col><ion-text>{{'proposal-validation-page.pending-proposal-grid-header.produit-image' | i18n: 'Image' | async}}</ion-text></ion-col>

@@ -17,10 +17,13 @@ export class AploseDatabase extends Dexie {
 
   constructor() {
     super('AploseFrameworkNg');
-    
     this.version(2).stores({
       authentication: 'key',
       translation: 'code, locale'
+    });
+    this.version(3).upgrade(tx => {
+      tx.table('authentication').clear();
+      tx.table('translation').clear();
     });
   }
 }

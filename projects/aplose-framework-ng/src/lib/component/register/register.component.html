@@ -20,7 +20,7 @@
         </ion-row>
         <ion-row class="ion-justify-content-end">
             <ion-col size="auto">
-                <ion-button type="button" (click)="validationMode = false;">{{ 'register-component-cancel' | i18n:'Annuler' | async }}</ion-button>
+                <ion-button type="button" (click)="switchToRegisterMode()">{{ 'register-component-cancel' | i18n:'Annuler' | async }}</ion-button>
               </ion-col>
               <ion-col size="auto">
                   <ion-button type="submit">{{ 'register-component-validate' | i18n:'Valider' | async }}</ion-button>
@@ -44,6 +44,7 @@
             }
             </ion-select>
         </ion-item>
+        
 
         <ion-item>
             <ion-input type="text" autocomplete="on" name="given-name" [label]="'register-component-firstname' | i18n:'Prénom *' | async" labelPlacement="floating"
@@ -81,7 +82,8 @@
                 </div>
                 <input type="tel" 
                        [value]="registerForm.get('phoneNumber')?.value" 
-                       (input)="onPhoneNumberChange($event)" />
+                       />
+<!--                       (input)="onPhoneNumberChange($event)" /-->
             </ion-input>
         </ion-item>
         @if(phoneError){
@@ -133,6 +135,14 @@
             <ion-col size="auto">
             <ion-button type="submit" [disabled]="registerForm.invalid" class="ion-margin-top">
                 {{ 'register-component-register' | i18n:'S\'enregistrer' | async }}
+            </ion-button>
+        </ion-col>
+    </ion-row>
+
+    <ion-row>
+        <ion-col>
+            <ion-button (click)="switchToValidationMode()">
+                {{ 'register-component-switch-to-validation-mode' | i18n:'J\'ai un code d\'activation' | async }}
             </ion-button>
         </ion-col>
     </ion-row>

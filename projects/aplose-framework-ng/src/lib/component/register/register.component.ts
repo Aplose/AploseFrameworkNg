@@ -172,7 +172,6 @@ export class RegisterComponent implements OnInit {
             this.registerForm.patchValue({
               phonePrefix: newPrefix
             });
-            this.validatePhoneNumber();
             popover.dismiss();
           },
           formControlName: 'addressCountryCode'
@@ -219,14 +218,6 @@ export class RegisterComponent implements OnInit {
 
   public passwordComplexityValidation(formControl: AbstractControl): ValidationErrors | null{
     return null;
-    const password = formControl.get('userAccountPassword');
-    const validatorRegExp = new RegExp('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!?@#$%^&*+-]).{8,}$');
-    if(validatorRegExp.test(password?.value)){
-      password?.setErrors(null);
-    } else {
-      password?.setErrors({passwordComplexityTooLow: true});
-    }
-    return null;
   }
 
   public passwordRepeatValidator(formControl: AbstractControl): ValidationErrors | null {
@@ -248,6 +239,11 @@ export class RegisterComponent implements OnInit {
       addressCountryCode!.setErrors({countryNotSelected: true})
     }
     return null;
+  }
+
+  public switchToValidationMode(){
+    this.validationMode = true;
+    this.activateEnterActivationCode = true;
   }
 
 
@@ -284,14 +280,6 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  public onPhoneNumberChange(event: Event): void {
-    const phoneNumber = (event.target as HTMLInputElement).value;
-    this.registerForm.patchValue({
-      phoneNumber: phoneNumber
-    });
-    this.validatePhoneNumber();
-  }
-
   private validatePhoneNumberFormat(phoneNumber: string, countryCode: string | null): { isValid: boolean, error?: string } {
     if (!phoneNumber) {
       return { isValid: false, error: 'Le numéro de téléphone est requis' };
@@ -322,19 +310,18 @@ export class RegisterComponent implements OnInit {
       const countryCode = this.registerForm?.get('addressCountryCode')?.value;
       
       const validation = this.validatePhoneNumberFormat(value, countryCode);
+      this.phoneError = validation.error || '';
       return validation.isValid ? null : { 'invalidPhone': true };
     };
-  }
-
-  private validatePhoneNumber(): void {
-    const fullNumber = this.registerForm.get('phone')?.value;
-    const countryCode = this.registerForm.get('addressCountryCode')?.value;
-    
-    const validation = this.validatePhoneNumberFormat(fullNumber, countryCode);
-    this.phoneError = validation.error || '';
   }
 
   private getPhonePrefix(countryCode: string): string {
     return this.countryPhonePrefixes[countryCode] || '+33';
   }
+
+  public switchToRegisterMode(){
+    this.validationMode = false;
+    this.activateEnterActivationCode = false;
+  } 
+
 }
