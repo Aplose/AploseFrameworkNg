@@ -129,7 +129,7 @@ export class RegisterComponent implements OnInit {
       addressCountryCode: new FormControl(null, [Validators.required, Validators.minLength(2)]),
       userAccountCompanyName: new FormControl({value: '', disabled: true}, Validators.required),
       authenticationType: new FormControl(AuthenticationTypeEnum.INTERNAL)
-    }, { validators: [this.passwordRepeatValidator, this.passwordComplexityValidation, this.countryIsSelectedValidator] });
+    }, { validators: [this.phoneNumberValidator,this.passwordRepeatValidator, this.passwordComplexityValidation, this.countryIsSelectedValidator] });
 
     if(this.forceIsProfessional){
       this.registerForm.get('userAccountCompanyName')!.enable();
@@ -172,6 +172,7 @@ export class RegisterComponent implements OnInit {
             this.registerForm.patchValue({
               phonePrefix: newPrefix
             });
+            this.registerForm.get('phoneNumber')?.updateValueAndValidity();
             popover.dismiss();
           },
           formControlName: 'addressCountryCode'
@@ -300,7 +301,7 @@ export class RegisterComponent implements OnInit {
 
       return { isValid: true };
     } catch (e) {
-      return { isValid: false, error: 'Format de numéro invalide' };
+      return { isValid: false, error: 'Format de numéro invalide, ne pas inclure le préfixe de pays' };
     }
   }
 
@@ -308,7 +309,6 @@ export class RegisterComponent implements OnInit {
     return (control: FormControl): {[key: string]: any} | null => {
       const value = control.value;
       const countryCode = this.registerForm?.get('addressCountryCode')?.value;
-      
       const validation = this.validatePhoneNumberFormat(value, countryCode);
       this.phoneError = validation.error || '';
       return validation.isValid ? null : { 'invalidPhone': true };
